@@ -1,75 +1,151 @@
 import React from 'react';
-import { Store, Plus, AlertTriangle, CheckCircle2, RotateCcw } from 'lucide-react';
+import { 
+  Store, 
+  Tag, 
+  BarChart3, 
+  Boxes, 
+  Sun, 
+  Moon, 
+  Plus, 
+  RotateCcw,
+  Sparkles
+} from 'lucide-react';
 
 /**
- * Componente Navbar: Barra superior con marca del negocio, alertas rápidas y acción principal
+ * Topbar Superior Fijo con estética de Tienda Familiar
  * @param {Object} props
- * @param {Object} props.stats - Métricas calculadas (alertas, stock bajo, agotados)
- * @param {Function} props.onOpenNewProduct - Callback para abrir modal de nuevo producto
- * @param {Function} props.onFilterAlerts - Callback para filtrar rápidamente productos en alerta
- * @param {Function} props.onResetDemo - Callback para restaurar datos demo
+ * @param {string} props.activeTab - Pestaña actual ('store' | 'offers' | 'dashboard' | 'inventory')
+ * @param {Function} props.setActiveTab - Callback para cambiar de pestaña
+ * @param {string} props.theme - Tema actual ('light' | 'dark')
+ * @param {Function} props.toggleTheme - Callback para alternar modo claro/oscuro
+ * @param {Object} props.stats - Estadísticas calculadas (ofertas activas, alertas, etc.)
+ * @param {Function} props.onOpenNewProduct - Abrir modal de nuevo producto
+ * @param {Function} props.onRefresh - Sincronizar datos con json-server
  */
-export function Navbar({ stats, onOpenNewProduct, onFilterAlerts, onRefresh }) {
-  const { totalAlerts, outOfStockCount, lowStockCount } = stats;
+export function Navbar({
+  activeTab,
+  setActiveTab,
+  theme,
+  toggleTheme,
+  stats,
+  onOpenNewProduct,
+  onRefresh,
+}) {
+  const { activeOffersCount, totalAlerts } = stats;
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        {/* Marca y Nombre del Negocio */}
-        <div className="navbar-brand">
-          <div className="brand-icon">
-            <Store size={22} />
+    <header className="topbar">
+      <div className="topbar-inner">
+        {/* Marca de Tienda Familiar */}
+        <div 
+          className="topbar-brand" 
+          onClick={() => setActiveTab('store')}
+          role="button"
+          tabIndex={0}
+          title="Ir a la Tienda Principal"
+        >
+          <div className="brand-badge-icon">
+            <Store size={24} />
           </div>
-          <div>
-            <h1 className="brand-title">
-              StockFlow <span style={{ color: 'var(--primary)', fontSize: '0.85em' }}>Local</span>
+          <div className="brand-titles">
+            <h1 className="brand-main-name">
+              La Tiendita <span className="brand-name-accent">Familiar</span>
             </h1>
-            <p className="brand-subtitle">Control de Inventario & Existencias</p>
+            <span className="brand-tagline">Boutique & Market · Calidad & Ahorro</span>
           </div>
         </div>
 
-        {/* Acciones y Alertas Rápidas */}
-        <div className="navbar-actions">
-          {/* Badge interactivo de Alertas */}
-          {totalAlerts > 0 ? (
-            <button
-              className={`alert-pill ${outOfStockCount > 0 ? 'critical-alerts' : 'has-alerts'}`}
-              onClick={onFilterAlerts}
-              title="Haz clic para ver los productos en alerta"
-              type="button"
-            >
-              <AlertTriangle size={15} />
-              <span>
-                {outOfStockCount > 0 ? `${outOfStockCount} Agotado(s)` : ''}
-                {outOfStockCount > 0 && lowStockCount > 0 ? ' · ' : ''}
-                {lowStockCount > 0 ? `${lowStockCount} Stock Bajo` : ''}
-              </span>
-            </button>
-          ) : (
-            <div className="alert-pill all-good" title="Todo el inventario está en niveles óptimos">
-              <CheckCircle2 size={15} />
-              <span>Stock Óptimo</span>
-            </div>
-          )}
-
-          {/* Botón secundario para recargar datos desde la API REST */}
+        {/* Pestañas de Navegación Principal */}
+        <nav className="topbar-nav" aria-label="Navegación principal">
+          {/* 1. Tienda / Catálogo */}
           <button
-            onClick={onRefresh}
-            className="btn-icon-only"
-            title="Sincronizar y recargar datos desde la API (json-server)"
             type="button"
+            className={`nav-tab-btn ${activeTab === 'store' ? 'active' : ''}`}
+            onClick={() => setActiveTab('store')}
+          >
+            <Store size={17} />
+            <span>Tienda</span>
+          </button>
+
+          {/* 2. Ofertas y Descuentos */}
+          <button
+            type="button"
+            className={`nav-tab-btn ${activeTab === 'offers' ? 'active' : ''}`}
+            onClick={() => setActiveTab('offers')}
+          >
+            <Tag size={17} />
+            <span>Ofertas</span>
+            {activeOffersCount > 0 && (
+              <span className="nav-offer-count-badge" title={`${activeOffersCount} ofertas activas`}>
+                {activeOffersCount}
+              </span>
+            )}
+          </button>
+
+          {/* 3. Dashboard Administrativo */}
+          <button
+            type="button"
+            className={`nav-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveTab('dashboard')}
+          >
+            <BarChart3 size={17} />
+            <span>Dashboard</span>
+          </button>
+
+          {/* 4. Gestión de Inventario */}
+          <button
+            type="button"
+            className={`nav-tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inventory')}
+          >
+            <Boxes size={17} />
+            <span>Inventario</span>
+            {totalAlerts > 0 && (
+              <span 
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: 'var(--accent-rose)',
+                  display: 'inline-block',
+                }}
+                title="Hay productos con stock bajo o agotados"
+              />
+            )}
+          </button>
+        </nav>
+
+        {/* Acciones del Topbar */}
+        <div className="topbar-actions">
+          {/* Selector de Modo Claro / Oscuro */}
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
+            aria-label="Alternar tema"
+          >
+            {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
+
+          {/* Botón Sincronizar */}
+          <button
+            type="button"
+            className="btn-icon-only"
+            onClick={onRefresh}
+            title="Sincronizar con base de datos (json-server)"
           >
             <RotateCcw size={17} />
           </button>
 
-          {/* Botón Principal para registrar nuevo producto */}
+          {/* Botón Nuevo Producto */}
           <button
+            type="button"
             className="btn btn-primary"
             onClick={onOpenNewProduct}
-            type="button"
-            id="btn-add-new-product"
+            id="btn-navbar-new-product"
           >
-            <Plus size={18} />
+            <Plus size={17} />
             <span>Nuevo Producto</span>
           </button>
         </div>
@@ -77,4 +153,5 @@ export function Navbar({ stats, onOpenNewProduct, onFilterAlerts, onRefresh }) {
     </header>
   );
 }
+
 export default Navbar;

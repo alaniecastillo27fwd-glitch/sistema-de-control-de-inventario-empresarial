@@ -7,6 +7,26 @@
       "stockActual": 14,
       "stockMinimo": 5,
       "precio": 18.5,
+      "enOferta": true,
+      "precioOferta": 14.8,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-01T08:00:00.000Z",
+      "fechaFinOferta": "2026-09-04T18:00:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-01T08:00:00.000Z",
+          "precio": 14.8,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Oferta especial de fin de semana: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-08-28T10:00:00.000Z",
+          "precio": 18.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-08-28T10:00:00.000Z"
     },
     {
@@ -15,7 +35,27 @@
       "categoria": "Lácteos",
       "stockActual": 14,
       "stockMinimo": 8,
-      "precio": 2.1,
+      "precio": 2.5,
+      "enOferta": true,
+      "precioOferta": 2.0,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-03T10:00:00.000Z",
+      "fechaFinOferta": "2026-09-10T23:59:59.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-03T10:00:00.000Z",
+          "precio": 2.0,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Promoción semanal de lácteos: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-08-29T11:30:00.000Z",
+          "precio": 2.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-08-29T11:30:00.000Z"
     },
     {
@@ -24,7 +64,20 @@
       "categoria": "Jarabes y Sabores",
       "stockActual": 5,
       "stockMinimo": 3,
-      "precio": 12,
+      "precio": 12.0,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-30T09:15:00.000Z",
+          "precio": 12.0,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-08-30T09:15:00.000Z"
     },
     {
@@ -34,6 +87,19 @@
       "stockActual": 20,
       "stockMinimo": 10,
       "precio": 7.8,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-31T14:20:00.000Z",
+          "precio": 7.8,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-08-31T14:20:00.000Z"
     },
     {
@@ -42,7 +108,20 @@
       "categoria": "Té e Infusiones",
       "stockActual": 0,
       "stockMinimo": 4,
-      "precio": 24,
+      "precio": 24.0,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-01T16:45:00.000Z",
+          "precio": 24.0,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-09-01T16:45:00.000Z"
     },
     {
@@ -52,6 +131,19 @@
       "stockActual": 18,
       "stockMinimo": 6,
       "precio": 4.5,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-02T12:00:00.000Z",
+          "precio": 4.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-09-02T12:00:00.000Z"
     },
     {
@@ -61,6 +153,19 @@
       "stockActual": 10,
       "stockMinimo": 4,
       "precio": 1.5,
+      "enOferta": true,
+      "precioOferta": 1.2,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-02T12:00:00.000Z",
+      "fechaFinOferta": "2026-09-09T23:59:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-03T19:39:47.606Z",
+          "precio": 1.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
       "fechaRegistro": "2026-09-03T19:39:47.606Z"
     }
   ],
@@ -92,8 +197,8 @@
       "nombreProducto": "Jarabe de Vainilla Francesa (750ml)",
       "tipo": "OUT",
       "cantidad": 2,
-      "motivo": "Venta al mostrador (Agotado)",
-      "stockResultante": 0
+      "motivo": "Venta al mostrador",
+      "stockResultante": 5
     },
     {
       "id": "bPYXDsH2kk0",
@@ -112,27 +217,7 @@
       "nombreProducto": "Alfajores de Maicena Artesanales",
       "tipo": "OUT",
       "cantidad": 2,
-      "motivo": "Venta de meriendaVenta de merienda",
-      "stockResultante": 10
-    },
-    {
-      "id": "fHEzwvCXQ9E",
-      "fecha": "2026-09-03T19:41:35.144Z",
-      "productoId": "WlOLljcsHe0",
-      "nombreProducto": "Alfajores de Maicena Artesanales",
-      "tipo": "OUT",
-      "cantidad": 2,
       "motivo": "Venta de merienda",
-      "stockResultante": 8
-    },
-    {
-      "id": "fIS0nmRv7-Y",
-      "fecha": "2026-09-03T19:44:07.338Z",
-      "productoId": "WlOLljcsHe0",
-      "nombreProducto": "Alfajores de Maicena Artesanales",
-      "tipo": "IN",
-      "cantidad": 2,
-      "motivo": "Ajuste de inventario",
       "stockResultante": 10
     },
     {
@@ -142,7 +227,7 @@
       "nombreProducto": "Leche Entera Barista (1L)",
       "tipo": "IN",
       "cantidad": 10,
-      "motivo": "ReposiciReposicion semanal de lacteos",
+      "motivo": "Reposición semanal de lácteos",
       "stockResultante": 14
     },
     {

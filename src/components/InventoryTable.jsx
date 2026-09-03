@@ -5,19 +5,23 @@ import {
   ArrowDownRight, 
   Edit2, 
   Trash2, 
-  PackageOpen
+  PackageOpen, 
+  Tag, 
+  Sparkles,
+  Percent
 } from 'lucide-react';
 
 /**
- * Tabla interactiva para la gestión de productos con búsqueda en tiempo real,
- * filtros de estado (Todos, Óptimo, Stock Bajo, Agotado) y botones de acción rápida.
+ * Tabla Administrativa de Inventario:
+ * Soporte para filtrado, edición, eliminación, entradas/salidas y asignación rápida de ofertas.
  * 
  * @param {Object} props
- * @param {Array} props.products - Lista completa de productos
+ * @param {Array} props.products - Lista de productos
  * @param {Function} props.onOpenMovement - Callback para registrar Entrada/Salida (p, type)
  * @param {Function} props.onEditProduct - Callback para editar producto (p)
  * @param {Function} props.onDeleteProduct - Callback para eliminar producto (id)
- * @param {string} props.activeFilter - Filtro de estado seleccionado externamente
+ * @param {Function} props.onOpenOfferModal - Callback para gestionar oferta (p)
+ * @param {string} props.activeFilter - Filtro de estado
  * @param {Function} props.setActiveFilter - Actualizar filtro de estado
  */
 export function InventoryTable({
@@ -25,34 +29,32 @@ export function InventoryTable({
   onOpenMovement,
   onEditProduct,
   onDeleteProduct,
-  activeFilter,
+  onOpenOfferModal,
+  activeFilter = 'ALL',
   setActiveFilter,
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
-  // Obtener categorías únicas presentes en los productos actuales
+  // Categorías únicas
   const availableCategories = useMemo(() => {
-    const cats = new Set(products.map(p => p.category));
-    return Array.from(cats).sort();
+    const cats = new Set(products.map((p) => p.category));
+    return Array.from(cats).filter(Boolean).sort();
   }, [products]);
 
-  // Lógica de filtrado combinado: Búsqueda + Filtro de Estado + Filtro de Categoría
+  // Lógica de filtrado combinado
   const filteredProducts = useMemo(() => {
     return products.filter((item) => {
-      // 1. Filtro de búsqueda por texto
       const matchesSearch =
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.category.toLowerCase().includes(searchTerm.toLowerCase());
 
       if (!matchesSearch) return false;
 
-      // 2. Filtro de categoría
       if (selectedCategory !== 'ALL' && item.category !== selectedCategory) {
         return false;
       }
 
-      // 3. Filtro por nivel de stock
       if (activeFilter === 'LOW') {
         return item.stock <= item.minStock && item.stock > 0;
       }
@@ -62,14 +64,14 @@ export function InventoryTable({
       if (activeFilter === 'NORMAL') {
         return item.stock > item.minStock;
       }
+      if (activeFilter === 'OFFERS') {
+        return Boolean(item.enOferta);
+      }
 
       return true; // 'ALL'
     });
   }, [products, searchTerm, selectedCategory, activeFilter]);
 
-  /**
-   * Determina el badge de estado visual según el nivel de existencias
-   */
   const renderStockBadge = (product) => {
     if (product.stock === 0) {
       return (
@@ -104,17 +106,17 @@ export function InventoryTable({
 
   return (
     <div className="table-panel">
-      {/* Barra de herramientas superior: Búsqueda y Filtros */}
+      {/* Barra de herramientas superior */}
       <div className="table-header-toolbar">
-        <div className="toolbar-title-group">
-          <h2>Catálogo de Existencias</h2>
+        <div className="section-title-group">
+          <h2>Gestión Administrativa de Existencias</h2>
           <p>
             {filteredProducts.length} de {products.length} productos listados
           </p>
         </div>
 
-        <div className="toolbar-filters">
-          {/* Campo de búsqueda */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          {/* Buscador */}
           <div className="search-box">
             <Search size={16} />
             <input
@@ -130,7 +132,7 @@ export function InventoryTable({
           {availableCategories.length > 0 && (
             <select
               className="form-select"
-              style={{ width: 'auto', padding: '8px 12px', fontSize: '0.82rem' }}
+              style={{ width: 'auto', padding: '8px 12px', fontSize: '0.85rem' }}
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
@@ -143,35 +145,42 @@ export function InventoryTable({
             </select>
           )}
 
-          {/* Tabs de Filtro de Estado */}
-          <div className="filter-tabs">
+          {/* Filtros de Estado */}
+          <div className="time-range-toggle">
             <button
               type="button"
-              className={`filter-tab ${activeFilter === 'ALL' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('ALL')}
+              className={`time-range-btn ${activeFilter === 'ALL' ? 'active' : ''}`}
+              onClick={() => setActiveFilter && setActiveFilter('ALL')}
             >
               Todos
             </button>
             <button
               type="button"
-              className={`filter-tab ${activeFilter === 'NORMAL' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('NORMAL')}
+              className={`time-range-btn ${activeFilter === 'NORMAL' ? 'active' : ''}`}
+              onClick={() => setActiveFilter && setActiveFilter('NORMAL')}
             >
               Óptimo
             </button>
             <button
               type="button"
-              className={`filter-tab ${activeFilter === 'LOW' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('LOW')}
+              className={`time-range-btn ${activeFilter === 'LOW' ? 'active' : ''}`}
+              onClick={() => setActiveFilter && setActiveFilter('LOW')}
             >
               Stock Bajo
             </button>
             <button
               type="button"
-              className={`filter-tab ${activeFilter === 'OUT' ? 'active' : ''}`}
-              onClick={() => setActiveFilter('OUT')}
+              className={`time-range-btn ${activeFilter === 'OUT' ? 'active' : ''}`}
+              onClick={() => setActiveFilter && setActiveFilter('OUT')}
             >
               Agotado
+            </button>
+            <button
+              type="button"
+              className={`time-range-btn ${activeFilter === 'OFFERS' ? 'active' : ''}`}
+              onClick={() => setActiveFilter && setActiveFilter('OFFERS')}
+            >
+              ⭐ Ofertas
             </button>
           </div>
         </div>
@@ -182,47 +191,47 @@ export function InventoryTable({
         <table className="inventory-table">
           <thead>
             <tr>
-              <th>Producto</th>
-              <th>Estado</th>
+              <th>Producto & Categoría</th>
+              <th>Estado de Stock</th>
               <th>Stock Actual</th>
               <th>Stock Mínimo</th>
-              <th>Precio Unitario</th>
+              <th>Precio Regular</th>
+              <th>Oferta Activa</th>
               <th>Valor Total</th>
-              <th style={{ textAlign: 'right' }}>Acciones Rápidas</th>
+              <th style={{ textAlign: 'right' }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan="7">
-                  <div className="empty-state">
-                    <div className="empty-state-icon">
-                      <PackageOpen size={24} />
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                        No se encontraron productos
-                      </p>
-                      <p style={{ fontSize: '0.82rem', marginTop: 4 }}>
-                        {searchTerm || activeFilter !== 'ALL' || selectedCategory !== 'ALL'
-                          ? 'Intenta ajustar los criterios de búsqueda o filtros.'
-                          : 'Aún no hay productos registrados. Haz clic en "Nuevo Producto" para comenzar.'}
-                      </p>
-                    </div>
+                <td colSpan="8">
+                  <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    <PackageOpen size={36} style={{ margin: '0 auto 10px', opacity: 0.7 }} />
+                    <p style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                      No se encontraron productos coincidentes
+                    </p>
+                    <p style={{ fontSize: '0.82rem', marginTop: 4 }}>
+                      Intenta ajustar los criterios de búsqueda o filtros.
+                    </p>
                   </div>
                 </td>
               </tr>
             ) : (
               filteredProducts.map((product) => {
-                const totalValue = (product.stock * product.price).toFixed(2);
+                const effectivePrice = product.enOferta && product.precioOferta ? product.precioOferta : product.price;
+                const totalValue = (product.stock * effectivePrice).toFixed(2);
 
                 return (
                   <tr key={product.id}>
                     {/* Nombre y Categoría */}
                     <td>
-                      <div className="product-name-cell">
-                        <span className="product-name">{product.name}</span>
-                        <span className="product-category-tag">{product.category}</span>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.92rem' }}>
+                          {product.name}
+                        </span>
+                        <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>
+                          {product.category}
+                        </span>
                       </div>
                     </td>
 
@@ -231,8 +240,8 @@ export function InventoryTable({
 
                     {/* Stock Actual */}
                     <td>
-                      <span className="stock-value-cell">{product.stock}</span>
-                      <span className="stock-min-hint">unidades</span>
+                      <span style={{ fontWeight: 800, fontSize: '0.95rem' }}>{product.stock}</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 4 }}>u.</span>
                     </td>
 
                     {/* Stock Mínimo */}
@@ -240,47 +249,83 @@ export function InventoryTable({
                       <span style={{ color: 'var(--text-secondary)' }}>{product.minStock} u.</span>
                     </td>
 
-                    {/* Precio Unitario */}
+                    {/* Precio Regular */}
                     <td>
-                      <span style={{ fontWeight: 500 }}>
-                        ${product.price.toFixed(2)}
+                      <span style={{ fontWeight: 600 }}>
+                        ${Number(product.price).toFixed(2)}
                       </span>
                     </td>
 
-                    {/* Valor Económico en Existencia */}
+                    {/* Oferta Activa */}
                     <td>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                      {product.enOferta ? (
+                        <button
+                          type="button"
+                          className="promo-tag"
+                          style={{ cursor: 'pointer', border: 'none' }}
+                          onClick={() => onOpenOfferModal && onOpenOfferModal(product)}
+                          title="Hacer clic para editar oferta"
+                        >
+                          <Tag size={11} />
+                          <span>-${product.porcentajeDescuento}% (${Number(product.precioOferta).toFixed(2)})</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => onOpenOfferModal && onOpenOfferModal(product)}
+                          style={{
+                            background: 'transparent',
+                            border: '1px dashed var(--border-color)',
+                            borderRadius: 'var(--radius-pill)',
+                            padding: '3px 10px',
+                            fontSize: '0.74rem',
+                            color: 'var(--text-muted)',
+                            cursor: 'pointer',
+                          }}
+                          title="Activar oferta en este producto"
+                        >
+                          + Ofertar
+                        </button>
+                      )}
+                    </td>
+
+                    {/* Valor Total en Existencia */}
+                    <td>
+                      <span style={{ fontWeight: 700, color: 'var(--color-mint-600)' }}>
                         ${totalValue}
                       </span>
                     </td>
 
-                    {/* Acciones Rápidas */}
+                    {/* Acciones */}
                     <td>
-                      <div className="actions-group">
-                        {/* Botón Entrada de Stock */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px' }}>
+                        {/* Entrada de Stock */}
                         <button
                           type="button"
-                          className="btn-action in"
+                          className="btn btn-secondary"
+                          style={{ padding: '5px 10px', fontSize: '0.75rem' }}
                           onClick={() => onOpenMovement(product, 'IN')}
                           title={`Registrar Entrada para ${product.name}`}
                         >
-                          <ArrowUpRight size={14} />
+                          <ArrowUpRight size={13} />
                           <span>Entrada</span>
                         </button>
 
-                        {/* Botón Salida de Stock */}
+                        {/* Salida de Stock */}
                         <button
                           type="button"
-                          className="btn-action out"
-                          onClick={() => onOpenMovement(product, 'OUT')}
-                          title={`Registrar Salida para ${product.name}`}
-                          disabled={product.stock === 0}
+                          className="btn btn-secondary"
                           style={{
+                            padding: '5px 10px',
+                            fontSize: '0.75rem',
                             opacity: product.stock === 0 ? 0.45 : 1,
                             cursor: product.stock === 0 ? 'not-allowed' : 'pointer',
                           }}
+                          onClick={() => onOpenMovement(product, 'OUT')}
+                          title={`Registrar Salida para ${product.name}`}
+                          disabled={product.stock === 0}
                         >
-                          <ArrowDownRight size={14} />
+                          <ArrowDownRight size={13} />
                           <span>Salida</span>
                         </button>
 
@@ -291,7 +336,7 @@ export function InventoryTable({
                           onClick={() => onEditProduct(product)}
                           title="Editar detalles del producto"
                         >
-                          <Edit2 size={15} />
+                          <Edit2 size={14} />
                         </button>
 
                         {/* Eliminar Producto */}
@@ -301,7 +346,7 @@ export function InventoryTable({
                           onClick={() => handleDeleteClick(product)}
                           title="Eliminar producto"
                         >
-                          <Trash2 size={15} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
