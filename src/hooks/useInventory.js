@@ -2,21 +2,9 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import * as inventoryService from '../services/inventoryService';
 
 /**
- * Hook centralizado useInventory adaptado para trabajar de forma asíncrona
- * con la API REST local (json-server / db.json).
- * 
- * Expone:
- * - products: lista de productos
- * - movements: lista de movimientos
- * - loading: estado booleano de carga
- * - error: mensaje de error en caso de fallo de red
- * - stats: métricas del negocio calculadas en tiempo real
- * - categories: lista única de categorías
- * - addProduct: registrar nuevo producto en la API (POST)
- * - updateProduct: actualizar producto en la API (PATCH)
- * - deleteProduct: eliminar producto en la API (DELETE)
- * - registerMovement: registrar Entrada/Salida actualizando stock (PATCH) y movimiento (POST)
- * - refreshData: recargar datos desde el servidor
+ * Hook centralizado useInventory:
+ * Maneja el estado global de productos, movimientos, ofertas y estadísticas
+ * sincronizadas en tiempo real con json-server (db.json).
  */
 export function useInventory() {
   const [products, setProducts] = useState([]);
@@ -57,7 +45,7 @@ export function useInventory() {
   const addProduct = async (productData) => {
     setError(null);
     try {
-      const { name, category, stock, minStock, price } = productData;
+      const { name, category, stock, minStock, price, enOferta, porcentajeDescuento, precioOferta, fechaInicioOferta, fechaFinOferta } = productData;
 
       if (!name?.trim()) {
         return { success: false, error: 'El nombre del producto es obligatorio.' };
@@ -86,6 +74,11 @@ export function useInventory() {
         stockActual: Math.floor(numStock),
         stockMinimo: Math.floor(numMinStock),
         precio: parseFloat(numPrice.toFixed(2)),
+        enOferta: Boolean(enOferta),
+        porcentajeDescuento: Number(porcentajeDescuento || 0),
+        precioOferta: precioOferta ? Number(precioOferta) : null,
+        fechaInicioOferta: fechaInicioOferta || null,
+        fechaFinOferta: fechaFinOferta || null,
       });
 
       // Si tiene stock inicial > 0, registrar automáticamente el movimiento de alta
@@ -117,12 +110,83 @@ export function useInventory() {
   const updateProduct = async (id, updatedFields) => {
     setError(null);
     try {
+      const current = products.find((p) => String(p.id) === String(id));
+      const oldPrice = current?.price;
+      const newPrice = updatedFields.price !== undefined ? Number(updatedFields.price) : oldPrice;
+      
+      let priceHistory = current?.historialPrecios || [];
+      if (oldPrice !== undefined && newPrice !== undefined && oldPrice !== newPrice) {
+        priceHistory = [
+          {
+            fecha: new Date().toISOString(),
+            precio: newPrice,
+            precioAnterior: oldPrice,
+            tipo: 'CAMBIO_PRECIO',
+            motivo: 'Ajuste manual de precio de lista',
+          },
+          ...priceHistory,
+        ];
+        updatedFields.historialPrecios = priceHistory;
+      }
+
       const updated = await inventoryService.updateProduct(id, updatedFields);
       setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
       return { success: true, product: updated };
     } catch (err) {
       console.error('Error al actualizar producto:', err);
       const msg = err.message || 'Error al actualizar producto en la API.';
+      setError(msg);
+      return { success: false, error: msg };
+    }
+  };
+
+  /**
+   * Aplica o actualiza una oferta temporal en un producto
+   */
+  const applyOffer = async (productId, offerData) => {
+    setError(null);
+    try {
+      const current = products.find((p) => String(p.id) === String(productId));
+      if (!current) throw new Error('Producto no encontrado');
+
+      const updated = await inventoryService.setProductOffer(productId, {
+        ...offerData,
+        currentProduct: current,
+      });
+
+      setProducts((prev) => prev.map((p) => (p.id === productId ? updated : p)));
+      return { success: true, product: updated };
+    } catch (err) {
+      console.error('Error al aplicar oferta:', err);
+      const msg = err.message || 'Error al aplicar oferta.';
+      setError(msg);
+      return { success: false, error: msg };
+    }
+  };
+
+  /**
+   * Cancela o remueve una oferta
+   */
+  const removeOffer = async (productId) => {
+    setError(null);
+    try {
+      const current = products.find((p) => String(p.id) === String(productId));
+      if (!current) throw new Error('Producto no encontrado');
+
+      const updated = await inventoryService.setProductOffer(productId, {
+        enOferta: false,
+        porcentajeDescuento: 0,
+        precioOferta: null,
+        fechaInicioOferta: null,
+        fechaFinOferta: null,
+        currentProduct: current,
+      });
+
+      setProducts((prev) => prev.map((p) => (p.id === productId ? updated : p)));
+      return { success: true, product: updated };
+    } catch (err) {
+      console.error('Error al remover oferta:', err);
+      const msg = err.message || 'Error al remover oferta.';
       setError(msg);
       return { success: false, error: msg };
     }
@@ -147,9 +211,6 @@ export function useInventory() {
 
   /**
    * Registra un movimiento de entrada o salida:
-   * 1. Valida reglas de negocio (no inventarios negativos).
-   * 2. Actualiza el stock del producto vía PATCH en la API.
-   * 3. Registra el movimiento vía POST en la colección movements.
    */
   const registerMovement = async ({ productId, type, quantity, reason }) => {
     setError(null);
@@ -168,7 +229,6 @@ export function useInventory() {
         return { success: false, error: 'Tipo de movimiento inválido (debe ser IN o OUT).' };
       }
 
-      // Validación estricta contra inventario negativo
       if (type === 'OUT' && qty > product.stock) {
         return {
           success: false,
@@ -178,10 +238,10 @@ export function useInventory() {
 
       const newStock = type === 'IN' ? product.stock + qty : product.stock - qty;
 
-      // Paso 1: Actualizar stock del producto en la API (PATCH)
+      // Actualizar stock
       const updatedProduct = await inventoryService.updateProductStock(product.id, newStock);
 
-      // Paso 2: Registrar el movimiento en la API (POST)
+      // Registrar movimiento
       const movementRecord = await inventoryService.registerMovement({
         productoId: product.id,
         nombreProducto: product.name,
@@ -195,7 +255,7 @@ export function useInventory() {
       setProducts((prev) => prev.map((p) => (String(p.id) === String(productId) ? updatedProduct : p)));
       setMovements((prev) => [movementRecord, ...prev]);
 
-      return { success: true, newStock };
+      return { success: true, newStock, movement: movementRecord };
     } catch (err) {
       console.error('Error en registerMovement:', err);
       const msg = err.message || 'Error al procesar el movimiento en la API.';
@@ -204,19 +264,25 @@ export function useInventory() {
     }
   };
 
-  // 5. Métricas del negocio calculadas de forma reactiva
+  // Métricas del negocio calculadas de forma reactiva
   const stats = useMemo(() => {
     const totalProducts = products.length;
     let totalUnits = 0;
     let lowStockCount = 0;
     let outOfStockCount = 0;
     let totalInventoryValue = 0;
+    let activeOffersCount = 0;
+    let expiringSoonOffersCount = 0;
 
     const alertProducts = [];
+    const activeOffers = [];
+    const now = new Date();
 
     products.forEach((p) => {
       totalUnits += p.stock;
-      totalInventoryValue += p.stock * p.price;
+      
+      const effectivePrice = (p.enOferta && p.precioOferta) ? p.precioOferta : p.price;
+      totalInventoryValue += p.stock * effectivePrice;
 
       if (p.stock === 0) {
         outOfStockCount++;
@@ -224,6 +290,24 @@ export function useInventory() {
       } else if (p.stock <= p.minStock) {
         lowStockCount++;
         alertProducts.push({ ...p, status: 'LOW_STOCK' });
+      }
+
+      // Check if offer is active
+      if (p.enOferta) {
+        const isExpired = p.fechaFinOferta && new Date(p.fechaFinOferta) <= now;
+        if (!isExpired) {
+          activeOffersCount++;
+          activeOffers.push(p);
+
+          // Check if expiring in < 48 hours
+          if (p.fechaFinOferta) {
+            const diffMs = new Date(p.fechaFinOferta).getTime() - now.getTime();
+            const diffHours = diffMs / (1000 * 60 * 60);
+            if (diffHours > 0 && diffHours <= 48) {
+              expiringSoonOffersCount++;
+            }
+          }
+        }
       }
     });
 
@@ -235,13 +319,16 @@ export function useInventory() {
       totalAlerts: lowStockCount + outOfStockCount,
       totalInventoryValue,
       alertProducts,
+      activeOffersCount,
+      expiringSoonOffersCount,
+      activeOffers,
     };
   }, [products]);
 
   // Lista única de categorías
   const categories = useMemo(() => {
     const unique = new Set(products.map((p) => p.category));
-    return Array.from(unique).sort();
+    return Array.from(unique).filter(Boolean).sort();
   }, [products]);
 
   return {
@@ -253,6 +340,8 @@ export function useInventory() {
     categories,
     addProduct,
     updateProduct,
+    applyOffer,
+    removeOffer,
     deleteProduct,
     registerMovement,
     refreshData: fetchData,

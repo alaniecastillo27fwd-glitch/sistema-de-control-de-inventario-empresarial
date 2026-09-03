@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useInventory } from './hooks/useInventory';
 import { Navbar } from './components/Navbar';
-import { DashboardStats } from './components/DashboardStats';
+import { StoreCatalog } from './components/StoreCatalog';
+import { OffersView } from './components/OffersView';
+import { AdminDashboard } from './components/AdminDashboard';
 import { InventoryTable } from './components/InventoryTable';
 import { ProductFormModal } from './components/ProductFormModal';
 import { StockMovementModal } from './components/StockMovementModal';
+import { OfferFormModal } from './components/OfferFormModal';
 import { 
-  History, 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  Clock, 
   CheckCircle2, 
   Loader2, 
   AlertTriangle, 
@@ -17,8 +16,9 @@ import {
 } from 'lucide-react';
 
 /**
- * Componente Principal Integrador: StockFlow Pro
- * Conectado con la API REST local (json-server en http://localhost:5000)
+ * Componente Principal: La Tiendita Familiar
+ * Integra Catálogo Boutique, Promociones con Cuenta Regresiva, Dashboard Analítico
+ * y Control de Inventario con sincronización a json-server y persistencia de Tema.
  */
 export function App() {
   const {
@@ -30,12 +30,31 @@ export function App() {
     categories,
     addProduct,
     updateProduct,
+    applyOffer,
+    removeOffer,
     deleteProduct,
     registerMovement,
     refreshData,
   } = useInventory();
 
-  // Estados de control de modales
+  // 1. Pestaña Activa de Navegación ('store' | 'offers' | 'dashboard' | 'inventory')
+  const [activeTab, setActiveTab] = useState('store');
+
+  // 2. Soporte Dual de Tema (Light / Dark Mode) persistido en localStorage
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('tiendita_theme') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('tiendita_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  // 3. Estados de Control de Modales
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -43,20 +62,23 @@ export function App() {
   const [movementProduct, setMovementProduct] = useState(null);
   const [movementType, setMovementType] = useState('IN');
 
-  // Filtro activo en la tabla ('ALL' | 'NORMAL' | 'LOW' | 'OUT')
-  const [activeFilter, setActiveFilter] = useState('ALL');
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [offerProduct, setOfferProduct] = useState(null);
 
-  // Estado para notificaciones Toast efímeras
+  // Filtro activo en la tabla de inventario
+  const [inventoryFilter, setInventoryFilter] = useState('ALL');
+
+  // Notificaciones Toast
   const [toastMessage, setToastMessage] = useState(null);
 
   const showToast = (message) => {
     setToastMessage(message);
     setTimeout(() => {
       setToastMessage(null);
-    }, 3500);
+    }, 4000);
   };
 
-  // Handlers asíncronos para Productos
+  // Handlers para Productos
   const handleOpenNewProduct = () => {
     setEditingProduct(null);
     setIsProductModalOpen(true);
@@ -71,12 +93,12 @@ export function App() {
     if (editingProduct) {
       const res = await updateProduct(editingProduct.id, productData);
       if (res.success) {
-        showToast(`Producto "${productData.name}" actualizado en la base de datos.`);
+        showToast(`Producto "${productData.name}" actualizado correctamente.`);
       }
     } else {
       const res = await addProduct(productData);
       if (res.success) {
-        showToast(`Producto "${productData.name}" registrado en la base de datos.`);
+        showToast(`Producto "${productData.name}" agregado a la tienda.`);
       }
     }
   };
@@ -85,11 +107,11 @@ export function App() {
     const target = products.find((p) => String(p.id) === String(id));
     const res = await deleteProduct(id);
     if (res.success) {
-      showToast(`Producto "${target?.name || ''}" eliminado de la base de datos.`);
+      showToast(`Producto "${target?.name || ''}" eliminado.`);
     }
   };
 
-  // Handlers asíncronos para Movimientos de Stock
+  // Handlers para Movimientos de Stock
   const handleOpenMovement = (product, type = 'IN') => {
     setMovementProduct(product);
     setMovementType(type);
@@ -99,51 +121,68 @@ export function App() {
   const handleMovementSubmit = async (movementPayload) => {
     const res = await registerMovement(movementPayload);
     if (res.success) {
-      const actionName = movementPayload.type === 'IN' ? 'Entrada' : 'Salida';
+      const actionName = movementPayload.type === 'IN' ? 'Entrada' : 'Venta / Salida';
       showToast(
-        `${actionName} de ${movementPayload.quantity} u. guardada en la base de datos. Nuevo stock: ${res.newStock} u.`
+        `${actionName} de ${movementPayload.quantity} u. registrada. Nuevo stock: ${res.newStock} u.`
       );
     }
     return res;
   };
 
-  const handleFilterAlerts = () => {
-    if (stats.outOfStockCount > 0) {
-      setActiveFilter('OUT');
-    } else if (stats.lowStockCount > 0) {
-      setActiveFilter('LOW');
-    } else {
-      setActiveFilter('ALL');
+  // Handlers para Ofertas y Promociones
+  const handleOpenOfferModal = (product) => {
+    setOfferProduct(product);
+    setIsOfferModalOpen(true);
+  };
+
+  const handleSubmitOffer = async (productId, offerData) => {
+    const res = await applyOffer(productId, offerData);
+    if (res.success) {
+      showToast(`¡Oferta del ${offerData.porcentajeDescuento}% aplicada con éxito!`);
+    }
+  };
+
+  const handleRemoveOffer = async (productId) => {
+    const res = await removeOffer(productId);
+    if (res.success) {
+      showToast('Oferta finalizada. Producto restablecido a su precio normal.');
     }
   };
 
   const handleRefresh = async () => {
     await refreshData();
-    showToast('Datos sincronizados con la API REST.');
+    showToast('Datos sincronizados con la base de datos.');
   };
 
   return (
     <div className="app-container">
-      {/* 1. Barra Superior con estado de conexión */}
+      {/* 1. Topbar Superior Fijo con Navegación y Toggle de Tema */}
       <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        theme={theme}
+        toggleTheme={toggleTheme}
         stats={stats}
         onOpenNewProduct={handleOpenNewProduct}
-        onFilterAlerts={handleFilterAlerts}
         onRefresh={handleRefresh}
       />
 
-      {/* Contenido Principal */}
+      {/* Contenido Principal según la Pestaña Activa */}
       <main className="main-content">
         {/* Banner de Error si json-server no responde */}
         {error && (
           <div
-            className="banner-alert error"
             style={{
               padding: '16px 20px',
+              marginBottom: '24px',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--accent-rose-bg)',
+              border: '1px solid var(--accent-rose)',
+              color: 'var(--accent-rose-text)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              boxShadow: 'var(--shadow-md)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -165,7 +204,7 @@ export function App() {
           </div>
         )}
 
-        {/* Indicador visual de Carga Inicial */}
+        {/* Indicador de Carga Inicial */}
         {loading && products.length === 0 ? (
           <div
             style={{
@@ -173,109 +212,63 @@ export function App() {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              minHeight: '350px',
+              minHeight: '380px',
               gap: '16px',
               color: 'var(--text-secondary)',
             }}
           >
-            <Loader2 size={40} className="spinner" style={{ animation: 'spin 1s linear infinite', color: 'var(--primary)' }} />
-            <p style={{ fontSize: '1rem', fontWeight: 600 }}>Cargando inventario desde la base de datos local...</p>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Petición HTTP a http://localhost:5000</span>
+            <Loader2 size={42} className="spinner" style={{ animation: 'spin 1s linear infinite', color: 'var(--primary)' }} />
+            <p style={{ fontSize: '1.05rem', fontWeight: 600 }}>Cargando catálogo familiar...</p>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Conectando a http://localhost:5000</span>
           </div>
         ) : (
           <>
-            {/* 2. Dashboard con Métricas Clave */}
-            <DashboardStats
-              stats={stats}
-              onSelectFilter={setActiveFilter}
-              activeFilter={activeFilter}
-            />
+            {/* PESTAÑA 1: TIENDA / CATÁLOGO */}
+            {activeTab === 'store' && (
+              <StoreCatalog
+                products={products}
+                onOpenMovement={handleOpenMovement}
+                onOpenOfferModal={handleOpenOfferModal}
+                onOpenNewProduct={handleOpenNewProduct}
+              />
+            )}
 
-            {/* 3. Tabla Interactiva de Inventario */}
-            <InventoryTable
-              products={products}
-              onOpenMovement={handleOpenMovement}
-              onEditProduct={handleEditProduct}
-              onDeleteProduct={handleDeleteProduct}
-              activeFilter={activeFilter}
-              setActiveFilter={setActiveFilter}
-            />
+            {/* PESTAÑA 2: OFERTAS Y DESCUENTOS */}
+            {activeTab === 'offers' && (
+              <OffersView
+                products={products}
+                onOpenMovement={handleOpenMovement}
+                onOpenOfferModal={handleOpenOfferModal}
+              />
+            )}
 
-            {/* 4. Historial de Movimientos persistido en json-server */}
-            {movements.length > 0 && (
-              <section className="history-section" aria-label="Historial de movimientos">
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <History size={18} color="var(--primary)" />
-                    Historial de Movimientos en Base de Datos
-                  </h3>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    {movements.length} movimientos registrados en db.json
-                  </span>
-                </div>
+            {/* PESTAÑA 3: DASHBOARD ADMINISTRATIVO */}
+            {activeTab === 'dashboard' && (
+              <AdminDashboard
+                products={products}
+                movements={movements}
+                stats={stats}
+                onSelectProductForEdit={handleEditProduct}
+              />
+            )}
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  {movements.slice(0, 6).map((mov) => {
-                    const isEntry = mov.type === 'IN';
-                    const formattedDate = new Date(mov.timestamp).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      day: '2-digit',
-                      month: 'short',
-                    });
-
-                    return (
-                      <div key={mov.id} className="history-item">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <div
-                            style={{
-                              width: '28px',
-                              height: '28px',
-                              borderRadius: 'var(--radius-sm)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              background: isEntry ? 'var(--status-normal-bg)' : 'var(--status-out-bg)',
-                              color: isEntry ? 'var(--status-normal-text)' : 'var(--status-out-text)',
-                            }}
-                          >
-                            {isEntry ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
-                          </div>
-                          <div>
-                            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                              {mov.productName}
-                            </span>
-                            <span style={{ color: 'var(--text-muted)', marginLeft: '8px', fontSize: '0.75rem' }}>
-                              ({mov.reason})
-                            </span>
-                          </div>
-                        </div>
-
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                          <span
-                            style={{
-                              fontWeight: 700,
-                              color: isEntry ? 'var(--accent-emerald)' : 'var(--accent-rose)',
-                            }}
-                          >
-                            {isEntry ? `+${mov.quantity}` : `-${mov.quantity}`} u.
-                          </span>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Clock size={12} />
-                            {formattedDate}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
+            {/* PESTAÑA 4: GESTIÓN DE INVENTARIO */}
+            {activeTab === 'inventory' && (
+              <InventoryTable
+                products={products}
+                onOpenMovement={handleOpenMovement}
+                onEditProduct={handleEditProduct}
+                onDeleteProduct={handleDeleteProduct}
+                onOpenOfferModal={handleOpenOfferModal}
+                activeFilter={inventoryFilter}
+                setActiveFilter={setInventoryFilter}
+              />
             )}
           </>
         )}
       </main>
 
-      {/* 5. Modal de Formulario de Producto */}
+      {/* MODAL 1: Formulario de Producto */}
       <ProductFormModal
         isOpen={isProductModalOpen}
         onClose={() => setIsProductModalOpen(false)}
@@ -284,13 +277,22 @@ export function App() {
         categories={categories}
       />
 
-      {/* 6. Modal de Movimiento de Stock con validaciones estrictas */}
+      {/* MODAL 2: Movimiento de Stock (Entradas y Salidas) */}
       <StockMovementModal
         isOpen={isMovementModalOpen}
         onClose={() => setIsMovementModalOpen(false)}
         product={movementProduct}
         initialType={movementType}
         onSubmitMovement={handleMovementSubmit}
+      />
+
+      {/* MODAL 3: Configurar Oferta Temporal */}
+      <OfferFormModal
+        isOpen={isOfferModalOpen}
+        onClose={() => setIsOfferModalOpen(false)}
+        product={offerProduct}
+        onSubmitOffer={handleSubmitOffer}
+        onRemoveOffer={handleRemoveOffer}
       />
 
       {/* Notificación Toast Flotante */}
@@ -301,21 +303,21 @@ export function App() {
             bottom: '24px',
             right: '24px',
             zIndex: 100,
-            background: 'var(--bg-modal)',
-            border: '1px solid var(--border-active)',
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border-color)',
             color: 'var(--text-primary)',
-            padding: '12px 20px',
+            padding: '14px 22px',
             borderRadius: 'var(--radius-md)',
-            boxShadow: 'var(--shadow-md)',
+            boxShadow: 'var(--shadow-lg)',
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
-            fontSize: '0.875rem',
+            gap: '12px',
+            fontSize: '0.9rem',
             animation: 'fadeIn 0.2s ease-out',
           }}
         >
-          <CheckCircle2 size={18} color="var(--accent-emerald)" />
-          <span>{toastMessage}</span>
+          <CheckCircle2 size={20} color="var(--color-mint-500)" />
+          <span style={{ fontWeight: 600 }}>{toastMessage}</span>
         </div>
       )}
     </div>
