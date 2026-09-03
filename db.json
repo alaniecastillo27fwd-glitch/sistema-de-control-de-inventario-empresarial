@@ -1,0 +1,180 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "nombre": "Café Grano Especialidad (1kg)",
+      "categoria": "Granos y Café",
+      "stockActual": 14,
+      "stockMinimo": 5,
+      "precio": 18.5,
+      "fechaRegistro": "2026-08-28T10:00:00.000Z"
+    },
+    {
+      "id": "prod-2",
+      "nombre": "Leche Entera Barista (1L)",
+      "categoria": "Lácteos",
+      "stockActual": 14,
+      "stockMinimo": 8,
+      "precio": 2.1,
+      "fechaRegistro": "2026-08-29T11:30:00.000Z"
+    },
+    {
+      "id": "prod-3",
+      "nombre": "Jarabe de Vainilla Francesa (750ml)",
+      "categoria": "Jarabes y Sabores",
+      "stockActual": 5,
+      "stockMinimo": 3,
+      "precio": 12,
+      "fechaRegistro": "2026-08-30T09:15:00.000Z"
+    },
+    {
+      "id": "prod-4",
+      "nombre": "Vasos Biodegradables 12oz (x50)",
+      "categoria": "Desechables",
+      "stockActual": 20,
+      "stockMinimo": 10,
+      "precio": 7.8,
+      "fechaRegistro": "2026-08-31T14:20:00.000Z"
+    },
+    {
+      "id": "prod-5",
+      "nombre": "Té Matcha Japonés Ceremonial (100g)",
+      "categoria": "Té e Infusiones",
+      "stockActual": 0,
+      "stockMinimo": 4,
+      "precio": 24,
+      "fechaRegistro": "2026-09-01T16:45:00.000Z"
+    },
+    {
+      "id": "prod-6",
+      "nombre": "Servilletas Ecológicas (Fardo 500u)",
+      "categoria": "Desechables",
+      "stockActual": 18,
+      "stockMinimo": 6,
+      "precio": 4.5,
+      "fechaRegistro": "2026-09-02T12:00:00.000Z"
+    },
+    {
+      "id": "WlOLljcsHe0",
+      "nombre": "Alfajores de Maicena Artesanales",
+      "categoria": "Repostería",
+      "stockActual": 10,
+      "stockMinimo": 4,
+      "precio": 1.5,
+      "fechaRegistro": "2026-09-03T19:39:47.606Z"
+    }
+  ],
+  "movements": [
+    {
+      "id": "mov-1",
+      "fecha": "2026-09-02T08:30:00.000Z",
+      "productoId": "prod-1",
+      "nombreProducto": "Café Grano Especialidad (1kg)",
+      "tipo": "IN",
+      "cantidad": 10,
+      "motivo": "Compra a proveedor de café",
+      "stockResultante": 14
+    },
+    {
+      "id": "mov-2",
+      "fecha": "2026-09-02T15:45:00.000Z",
+      "productoId": "prod-2",
+      "nombreProducto": "Leche Entera Barista (1L)",
+      "tipo": "OUT",
+      "cantidad": 6,
+      "motivo": "Consumo en turno matutino",
+      "stockResultante": 4
+    },
+    {
+      "id": "mov-3",
+      "fecha": "2026-09-03T09:10:00.000Z",
+      "productoId": "prod-3",
+      "nombreProducto": "Jarabe de Vainilla Francesa (750ml)",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta al mostrador (Agotado)",
+      "stockResultante": 0
+    },
+    {
+      "id": "bPYXDsH2kk0",
+      "fecha": "2026-09-03T19:39:47.671Z",
+      "productoId": "WlOLljcsHe0",
+      "nombreProducto": "Alfajores de Maicena Artesanales",
+      "tipo": "IN",
+      "cantidad": 12,
+      "motivo": "Inventario Inicial",
+      "stockResultante": 12
+    },
+    {
+      "id": "Uf_aURgzRjc",
+      "fecha": "2026-09-03T19:40:50.698Z",
+      "productoId": "WlOLljcsHe0",
+      "nombreProducto": "Alfajores de Maicena Artesanales",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta de meriendaVenta de merienda",
+      "stockResultante": 10
+    },
+    {
+      "id": "fHEzwvCXQ9E",
+      "fecha": "2026-09-03T19:41:35.144Z",
+      "productoId": "WlOLljcsHe0",
+      "nombreProducto": "Alfajores de Maicena Artesanales",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta de merienda",
+      "stockResultante": 8
+    },
+    {
+      "id": "fIS0nmRv7-Y",
+      "fecha": "2026-09-03T19:44:07.338Z",
+      "productoId": "WlOLljcsHe0",
+      "nombreProducto": "Alfajores de Maicena Artesanales",
+      "tipo": "IN",
+      "cantidad": 2,
+      "motivo": "Ajuste de inventario",
+      "stockResultante": 10
+    },
+    {
+      "id": "dIudpLg09Y4",
+      "fecha": "2026-09-03T19:46:49.531Z",
+      "productoId": "prod-2",
+      "nombreProducto": "Leche Entera Barista (1L)",
+      "tipo": "IN",
+      "cantidad": 10,
+      "motivo": "ReposiciReposicion semanal de lacteos",
+      "stockResultante": 14
+    },
+    {
+      "id": "AFZAZbioizY",
+      "fecha": "2026-09-03T19:49:25.906Z",
+      "productoId": "prod-3",
+      "nombreProducto": "Jarabe de Vainilla Francesa (750ml)",
+      "tipo": "IN",
+      "cantidad": 5,
+      "motivo": "Compra a proveedor",
+      "stockResultante": 5
+    },
+    {
+      "id": "hwHBIvVmT4U",
+      "fecha": "2026-09-03T19:52:33.892Z",
+      "productoId": "prod-5",
+      "nombreProducto": "Té Matcha Japonés Ceremonial (100g)",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta directa",
+      "stockResultante": 0
+    },
+    {
+      "id": "nkLFuVcX64c",
+      "fecha": "2026-09-03T19:55:31.180Z",
+      "productoId": "prod-4",
+      "nombreProducto": "Vasos Biodegradables 12oz (x50)",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta directa",
+      "stockResultante": 20
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
