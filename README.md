@@ -4,7 +4,7 @@ Sistema web moderno y reactivo para la administración, control y auditoría de 
 
 ---
 
-## 🚀 Características Principales
+## Características Principales
 
 - **Dashboard de Métricas en Tiempo Real (KPIs)**:
   - Total de productos registrados en catálogo.
@@ -38,7 +38,7 @@ Sistema web moderno y reactivo para la administración, control y auditoría de 
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 - **Frontend**: [React 19](https://react.dev/) + [Vite](https://vite.dev/)
 - **Iconos**: [Lucide React](https://lucide.dev/)
@@ -48,7 +48,7 @@ Sistema web moderno y reactivo para la administración, control y auditoría de 
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 sistema-de-control-de-inventario-empresarial/
@@ -80,7 +80,7 @@ sistema-de-control-de-inventario-empresarial/
 
 ---
 
-## ⚙️ Instalación y Ejecución Local
+## Instalación y Ejecución Local
 
 ### 1. Requisitos
 - Node.js (versión 18 o superior recomendada).
@@ -107,7 +107,7 @@ npm run dev
 
 ---
 
-## 📋 Endpoints de la API REST (`json-server`)
+## Endpoints de la API REST (`json-server`)
 
 | Método | Endpoint | Descripción |
 |---|---|---|
@@ -120,7 +120,7 @@ npm run dev
 
 ---
 
-## 🧪 Validación y Calidad de Código
+## Validación y Calidad de Código
 
 - Para compilar el proyecto para producción:
   ```bash

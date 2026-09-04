@@ -9,20 +9,13 @@
       <stop offset="100%" stop-color="#d97706" />
     </linearGradient>
   </defs>
-  <!-- Background Badge -->
   <rect width="64" height="64" rx="16" fill="url(#storeGrad)" />
-  <!-- Store Building Body -->
   <path d="M14 28V50C14 52.2 15.8 54 18 54H46C48.2 54 50 52.2 50 50V28" fill="#ffffff" />
-  <!-- Store Door -->
   <path d="M26 54V38C26 36.9 26.9 36 28 36H36C37.1 36 38 36.9 38 38V54" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
-  <!-- Awning / Techo de la Tienda -->
   <path d="M10 24L14 13C14.5 11.8 15.6 11 17 11H47C48.4 11 49.5 11.8 50 13L54 24H10Z" fill="url(#roofGrad)" />
-  <!-- Awning Stripes -->
   <path d="M18 11L16 24H23L24 11H18Z" fill="#ffffff" opacity="0.35" />
   <path d="M30 11L30 24H34L34 11H30Z" fill="#ffffff" opacity="0.35" />
   <path d="M40 11L41 24H48L46 11H40Z" fill="#ffffff" opacity="0.35" />
-  <!-- Awning Scallops / Onditas del techo -->
   <path d="M10 24C10 26.5 12 28 14.5 28C17 28 19 26.5 19 24C19 26.5 21 28 23.5 28C26 28 28 26.5 28 24C28 26.5 30 28 32.5 28C35 28 37 26.5 37 24C37 26.5 39 28 41.5 28C44 28 46 26.5 46 24C46 26.5 48 28 50.5 28C53 28 54 26.5 54 24" fill="none" stroke="#d97706" stroke-width="3" stroke-linecap="round" />
-  <!-- Little Star / Sparkle in Top Right -->
   <circle cx="48" cy="16" r="3" fill="#ffffff" />
 </svg>

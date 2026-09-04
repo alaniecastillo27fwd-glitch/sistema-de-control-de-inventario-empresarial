@@ -4,7 +4,7 @@ Documento oficial de seguimiento y registro de iteraciones para la práctica de 
 
 ---
 
-## 📋 Registro de Iteraciones Human-in-the-Loop
+## Registro de Iteraciones Human-in-the-Loop
 
 La siguiente tabla documenta el ciclo completo de colaboración asistida por IA: los requerimientos instruidos, el artefacto de software generado y la auditoría/corrección técnica efectuada por el desarrollador.
 
@@ -20,7 +20,7 @@ La siguiente tabla documenta el ciclo completo de colaboración asistida por IA:
 
 ---
 
-## 🎯 Criterios de Evaluación Cubiertos en esta Bitácora
+## Criterios de Evaluación Cubiertos en esta Bitácora
 
 1. **Trazabilidad del Ciclo Vibe Coding**: Documentación explícita del prompt inicial, la salida del modelo y el criterio de revisión humana.
 2. **Control de Calidad y Validaciones de Dominio**: Demostración de auditoría técnica sobre validaciones de stock, prevención de números negativos y manejo de excepciones de red.

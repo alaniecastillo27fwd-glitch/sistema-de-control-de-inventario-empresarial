@@ -154,28 +154,28 @@ export function StockMovementModal({
             {/* Resumen del producto seleccionado */}
             <div
               style={{
-                background: 'rgba(15, 23, 42, 0.8)',
-                padding: '12px 16px',
+                background: 'var(--bg-surface-alt)',
+                padding: '14px 18px',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border-subtle)',
+                border: '1px solid var(--border-color)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
             >
               <div>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Producto Seleccionado</span>
-                <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Producto Seleccionado</span>
+                <p style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1rem', marginTop: '2px' }}>
                   {product.name}
                 </p>
-                <span className="product-category-tag" style={{ marginTop: 2 }}>
+                <span className="product-category-tag" style={{ marginTop: '4px' }}>
                   {product.category}
                 </span>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Stock Disponible</span>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
-                  {currentStock} <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>u.</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Stock Disponible</span>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.35rem', color: currentStock > 0 ? 'var(--color-mint-600)' : 'var(--accent-rose)' }}>
+                  {currentStock} <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>u.</span>
                 </p>
               </div>
             </div>
@@ -327,25 +327,16 @@ export function StockMovementModal({
               )}
 
               {/* Botones de sugerencias rápidas para facilitar el llenado */}
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '6px' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', alignSelf: 'center' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
                   Sugerencias:
                 </span>
                 {quickReasons.map((qr) => (
                   <button
                     key={qr}
                     type="button"
+                    className={`quick-reason-chip ${reason === qr ? 'active' : ''}`}
                     onClick={() => handleQuickReasonClick(qr)}
-                    style={{
-                      fontSize: '0.72rem',
-                      padding: '3px 8px',
-                      background: reason === qr ? 'rgba(99, 102, 241, 0.25)' : 'rgba(255, 255, 255, 0.05)',
-                      border: `1px solid ${reason === qr ? 'var(--primary)' : 'var(--border-subtle)'}`,
-                      borderRadius: 'var(--radius-sm)',
-                      color: reason === qr ? '#ffffff' : 'var(--text-secondary)',
-                      cursor: 'pointer',
-                      transition: 'var(--transition-fast)',
-                    }}
                   >
                     {qr}
                   </button>

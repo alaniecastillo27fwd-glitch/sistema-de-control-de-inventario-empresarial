@@ -6,7 +6,8 @@ import {
   ArrowDownRight, 
   Plus, 
   Gift, 
-  Percent 
+  Percent,
+  Trash2
 } from 'lucide-react';
 import { CountdownTimer } from './CountdownTimer';
 
@@ -21,6 +22,7 @@ export function OffersView({
   products,
   onOpenMovement,
   onOpenOfferModal,
+  onDeleteProduct,
 }) {
   // Filtrar productos con ofertas activas
   const offerProducts = useMemo(() => {
@@ -101,9 +103,13 @@ export function OffersView({
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
-            🔥 Últimas Horas
+            <Flame size={15} />
+            <span>Últimas Horas</span>
           </span>
         </div>
       )}
@@ -214,6 +220,17 @@ export function OffersView({
                   >
                     Editar
                   </button>
+
+                  {onDeleteProduct && (
+                    <button
+                      type="button"
+                      className="btn-icon-only danger"
+                      onClick={() => onDeleteProduct(product)}
+                      title="Eliminar producto"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  )}
                 </div>
               </article>
             );

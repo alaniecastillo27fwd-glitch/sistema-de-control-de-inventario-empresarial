@@ -7,8 +7,7 @@ import {
   Sun, 
   Moon, 
   Plus, 
-  RotateCcw,
-  Sparkles
+  RotateCcw
 } from 'lucide-react';
 
 /**
@@ -44,8 +43,8 @@ export function Navbar({
           tabIndex={0}
           title="Ir a la Tienda Principal"
         >
-          <div className="brand-badge-icon">
-            <Store size={24} />
+          <div className="brand-badge-icon" style={{ padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/store-logo.svg" alt="Logo La Tiendita Familiar" style={{ width: '32px', height: '32px', borderRadius: '6px' }} />
           </div>
           <div className="brand-titles">
             <h1 className="brand-main-name">
