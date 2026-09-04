@@ -1,70 +1,41 @@
 {
   "products": [
     {
-      "id": "prod-1",
-      "nombre": "Café Grano Especialidad (1kg)",
-      "categoria": "Granos y Café",
-      "stockActual": 14,
-      "stockMinimo": 5,
-      "precio": 18.5,
-      "enOferta": true,
-      "precioOferta": 14.8,
-      "porcentajeDescuento": 20,
-      "fechaInicioOferta": "2026-09-01T08:00:00.000Z",
-      "fechaFinOferta": "2026-09-04T18:00:00.000Z",
-      "historialPrecios": [
-        {
-          "fecha": "2026-09-01T08:00:00.000Z",
-          "precio": 14.8,
-          "tipo": "OFERTA_APLICADA",
-          "motivo": "Oferta especial de fin de semana: -20%",
-          "porcentajeDescuento": 20
-        },
-        {
-          "fecha": "2026-08-28T10:00:00.000Z",
-          "precio": 18.5,
-          "tipo": "CREACION",
-          "motivo": "Precio Inicial de Lanzamiento"
-        }
-      ],
-      "fechaRegistro": "2026-08-28T10:00:00.000Z"
-    },
-    {
       "id": "prod-2",
-      "nombre": "Leche Entera Barista (1L)",
-      "categoria": "Lácteos",
-      "stockActual": 14,
-      "stockMinimo": 8,
-      "precio": 2.5,
+      "nombre": "Café Geisha Tueste Medio (500g)",
+      "categoria": "Granos y Café",
+      "stockActual": 10,
+      "stockMinimo": 4,
+      "precio": 28,
       "enOferta": true,
-      "precioOferta": 2.0,
-      "porcentajeDescuento": 20,
-      "fechaInicioOferta": "2026-09-03T10:00:00.000Z",
+      "precioOferta": 23.8,
+      "porcentajeDescuento": 15,
+      "fechaInicioOferta": "2026-09-02T10:00:00.000Z",
       "fechaFinOferta": "2026-09-10T23:59:59.000Z",
       "historialPrecios": [
         {
-          "fecha": "2026-09-03T10:00:00.000Z",
-          "precio": 2.0,
+          "fecha": "2026-09-02T10:00:00.000Z",
+          "precio": 23.8,
           "tipo": "OFERTA_APLICADA",
-          "motivo": "Promoción semanal de lácteos: -20%",
-          "porcentajeDescuento": 20
+          "motivo": "Semana del café premium: -15%",
+          "porcentajeDescuento": 15
         },
         {
-          "fecha": "2026-08-29T11:30:00.000Z",
-          "precio": 2.5,
+          "fecha": "2026-08-26T11:00:00.000Z",
+          "precio": 28,
           "tipo": "CREACION",
           "motivo": "Precio Inicial de Lanzamiento"
         }
       ],
-      "fechaRegistro": "2026-08-29T11:30:00.000Z"
+      "fechaRegistro": "2026-08-26T11:00:00.000Z"
     },
     {
       "id": "prod-3",
-      "nombre": "Jarabe de Vainilla Francesa (750ml)",
-      "categoria": "Jarabes y Sabores",
-      "stockActual": 5,
-      "stockMinimo": 3,
-      "precio": 12.0,
+      "nombre": "Café Descafeinado Suizo (1kg)",
+      "categoria": "Granos y Café",
+      "stockActual": 12,
+      "stockMinimo": 5,
+      "precio": 16.5,
       "enOferta": false,
       "precioOferta": null,
       "porcentajeDescuento": 0,
@@ -72,19 +43,347 @@
       "fechaFinOferta": null,
       "historialPrecios": [
         {
-          "fecha": "2026-08-30T09:15:00.000Z",
-          "precio": 12.0,
+          "fecha": "2026-08-27T08:30:00.000Z",
+          "precio": 16.5,
           "tipo": "CREACION",
           "motivo": "Precio Inicial de Lanzamiento"
         }
       ],
-      "fechaRegistro": "2026-08-30T09:15:00.000Z"
+      "fechaRegistro": "2026-08-27T08:30:00.000Z"
     },
     {
       "id": "prod-4",
+      "nombre": "Leche Entera Barista (1L)",
+      "categoria": "Lácteos y Bebidas",
+      "stockActual": 14,
+      "stockMinimo": 8,
+      "precio": 2.5,
+      "enOferta": true,
+      "precioOferta": 2,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-03T08:00:00.000Z",
+      "fechaFinOferta": "2026-09-08T23:59:59.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-03T08:00:00.000Z",
+          "precio": 2,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Promoción semanal de lácteos: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-08-28T10:00:00.000Z",
+          "precio": 2.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-28T10:00:00.000Z"
+    },
+    {
+      "id": "prod-5",
+      "nombre": "Bebida de Avena Cremosa Barista (1L)",
+      "categoria": "Lácteos y Bebidas",
+      "stockActual": 22,
+      "stockMinimo": 6,
+      "precio": 3.8,
+      "enOferta": true,
+      "precioOferta": 2.85,
+      "porcentajeDescuento": 25,
+      "fechaInicioOferta": "2026-09-02T12:00:00.000Z",
+      "fechaFinOferta": "2026-09-07T18:00:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-02T12:00:00.000Z",
+          "precio": 2.85,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Especial bebidas vegetales: -25%",
+          "porcentajeDescuento": 25
+        },
+        {
+          "fecha": "2026-08-28T14:00:00.000Z",
+          "precio": 3.8,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-28T14:00:00.000Z"
+    },
+    {
+      "id": "prod-6",
+      "nombre": "Bebida de Almendras Sin Azúcar (1L)",
+      "categoria": "Lácteos y Bebidas",
+      "stockActual": 8,
+      "stockMinimo": 5,
+      "precio": 3.5,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-29T10:00:00.000Z",
+          "precio": 3.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-29T10:00:00.000Z"
+    },
+    {
+      "id": "prod-7",
+      "nombre": "Jarabe Gourmet Vainilla Francesa (750ml)",
+      "categoria": "Jarabes y Sabores",
+      "stockActual": 6,
+      "stockMinimo": 4,
+      "precio": 12,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-29T15:30:00.000Z",
+          "precio": 12,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-29T15:30:00.000Z"
+    },
+    {
+      "id": "prod-8",
+      "nombre": "Jarabe Caramelo Salado Artesanal (750ml)",
+      "categoria": "Jarabes y Sabores",
+      "stockActual": 7,
+      "stockMinimo": 4,
+      "precio": 12.5,
+      "enOferta": true,
+      "precioOferta": 10,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-01T09:00:00.000Z",
+      "fechaFinOferta": "2026-09-09T23:59:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-01T09:00:00.000Z",
+          "precio": 10,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Descuento en saborizantes: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-08-30T11:00:00.000Z",
+          "precio": 12.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-30T11:00:00.000Z"
+    },
+    {
+      "id": "prod-9",
+      "nombre": "Jarabe de Avellana Tostada (750ml)",
+      "categoria": "Jarabes y Sabores",
+      "stockActual": 2,
+      "stockMinimo": 4,
+      "precio": 11.8,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-30T14:00:00.000Z",
+          "precio": 11.8,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-30T14:00:00.000Z"
+    },
+    {
+      "id": "prod-10",
+      "nombre": "Té Matcha Japonés Ceremonial Uji (100g)",
+      "categoria": "Té e Infusiones",
+      "stockActual": 0,
+      "stockMinimo": 4,
+      "precio": 24,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-08-31T10:00:00.000Z",
+          "precio": 24,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-31T10:00:00.000Z"
+    },
+    {
+      "id": "prod-11",
+      "nombre": "Té Chai Especiado Orgánico (250g)",
+      "categoria": "Té e Infusiones",
+      "stockActual": 16,
+      "stockMinimo": 5,
+      "precio": 14,
+      "enOferta": true,
+      "precioOferta": 9.8,
+      "porcentajeDescuento": 30,
+      "fechaInicioOferta": "2026-09-02T08:00:00.000Z",
+      "fechaFinOferta": "2026-09-11T20:00:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-02T08:00:00.000Z",
+          "precio": 9.8,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Super descuento de té artesanal: -30%",
+          "porcentajeDescuento": 30
+        },
+        {
+          "fecha": "2026-08-31T12:00:00.000Z",
+          "precio": 14,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-31T12:00:00.000Z"
+    },
+    {
+      "id": "prod-12",
+      "nombre": "Infusión Frutos Rojos Silvestres (200g)",
+      "categoria": "Té e Infusiones",
+      "stockActual": 15,
+      "stockMinimo": 5,
+      "precio": 9.5,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-01T09:30:00.000Z",
+          "precio": 9.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-09-01T09:30:00.000Z"
+    },
+    {
+      "id": "prod-13",
+      "nombre": "Alfajores de Maicena Artesanales (x6)",
+      "categoria": "Repostería",
+      "stockActual": 15,
+      "stockMinimo": 5,
+      "precio": 4.5,
+      "enOferta": true,
+      "precioOferta": 3.6,
+      "porcentajeDescuento": 20,
+      "fechaInicioOferta": "2026-09-03T10:00:00.000Z",
+      "fechaFinOferta": "2026-09-06T19:00:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-03T10:00:00.000Z",
+          "precio": 3.6,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Dulce tentación de la semana: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-09-01T15:00:00.000Z",
+          "precio": 4.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-09-01T15:00:00.000Z"
+    },
+    {
+      "id": "prod-14",
+      "nombre": "Croissant de Mantequilla Francés",
+      "categoria": "Repostería",
+      "stockActual": 24,
+      "stockMinimo": 10,
+      "precio": 2.8,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-02T06:00:00.000Z",
+          "precio": 2.8,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-09-02T06:00:00.000Z"
+    },
+    {
+      "id": "prod-15",
+      "nombre": "Brownie Fudgy con Chocolate Belga",
+      "categoria": "Repostería",
+      "stockActual": 18,
+      "stockMinimo": 6,
+      "precio": 3.2,
+      "enOferta": true,
+      "precioOferta": 2.72,
+      "porcentajeDescuento": 15,
+      "fechaInicioOferta": "2026-09-03T11:00:00.000Z",
+      "fechaFinOferta": "2026-09-12T23:59:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-03T11:00:00.000Z",
+          "precio": 2.72,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Postre del día: -15%",
+          "porcentajeDescuento": 15
+        },
+        {
+          "fecha": "2026-09-02T08:00:00.000Z",
+          "precio": 3.2,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-09-02T08:00:00.000Z"
+    },
+    {
+      "id": "prod-16",
+      "nombre": "Galletas Chocochip con Sal Marina (x4)",
+      "categoria": "Repostería",
+      "stockActual": 3,
+      "stockMinimo": 8,
+      "precio": 3.5,
+      "enOferta": false,
+      "precioOferta": null,
+      "porcentajeDescuento": 0,
+      "fechaInicioOferta": null,
+      "fechaFinOferta": null,
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-02T09:00:00.000Z",
+          "precio": 3.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-09-02T09:00:00.000Z"
+    },
+    {
+      "id": "prod-17",
       "nombre": "Vasos Biodegradables 12oz (x50)",
       "categoria": "Desechables",
-      "stockActual": 20,
+      "stockActual": 35,
       "stockMinimo": 10,
       "precio": 7.8,
       "enOferta": false,
@@ -94,41 +393,19 @@
       "fechaFinOferta": null,
       "historialPrecios": [
         {
-          "fecha": "2026-08-31T14:20:00.000Z",
+          "fecha": "2026-08-30T10:00:00.000Z",
           "precio": 7.8,
           "tipo": "CREACION",
           "motivo": "Precio Inicial de Lanzamiento"
         }
       ],
-      "fechaRegistro": "2026-08-31T14:20:00.000Z"
+      "fechaRegistro": "2026-08-30T10:00:00.000Z"
     },
     {
-      "id": "prod-5",
-      "nombre": "Té Matcha Japonés Ceremonial (100g)",
-      "categoria": "Té e Infusiones",
-      "stockActual": 0,
-      "stockMinimo": 4,
-      "precio": 24.0,
-      "enOferta": false,
-      "precioOferta": null,
-      "porcentajeDescuento": 0,
-      "fechaInicioOferta": null,
-      "fechaFinOferta": null,
-      "historialPrecios": [
-        {
-          "fecha": "2026-09-01T16:45:00.000Z",
-          "precio": 24.0,
-          "tipo": "CREACION",
-          "motivo": "Precio Inicial de Lanzamiento"
-        }
-      ],
-      "fechaRegistro": "2026-09-01T16:45:00.000Z"
-    },
-    {
-      "id": "prod-6",
-      "nombre": "Servilletas Ecológicas (Fardo 500u)",
+      "id": "prod-18",
+      "nombre": "Servilletas Ecológicas Kraft (Fardo 500u)",
       "categoria": "Desechables",
-      "stockActual": 18,
+      "stockActual": 20,
       "stockMinimo": 6,
       "precio": 4.5,
       "enOferta": false,
@@ -138,127 +415,323 @@
       "fechaFinOferta": null,
       "historialPrecios": [
         {
-          "fecha": "2026-09-02T12:00:00.000Z",
+          "fecha": "2026-08-31T09:00:00.000Z",
           "precio": 4.5,
           "tipo": "CREACION",
           "motivo": "Precio Inicial de Lanzamiento"
         }
       ],
-      "fechaRegistro": "2026-09-02T12:00:00.000Z"
+      "fechaRegistro": "2026-08-31T09:00:00.000Z"
     },
     {
-      "id": "WlOLljcsHe0",
-      "nombre": "Alfajores de Maicena Artesanales",
-      "categoria": "Repostería",
-      "stockActual": 10,
-      "stockMinimo": 4,
-      "precio": 1.5,
+      "id": "prod-19",
+      "nombre": "Pajillas de Bambú Compostables (x100)",
+      "categoria": "Desechables",
+      "stockActual": 28,
+      "stockMinimo": 10,
+      "precio": 5,
       "enOferta": true,
-      "precioOferta": 1.2,
+      "precioOferta": 4,
       "porcentajeDescuento": 20,
-      "fechaInicioOferta": "2026-09-02T12:00:00.000Z",
-      "fechaFinOferta": "2026-09-09T23:59:00.000Z",
+      "fechaInicioOferta": "2026-09-02T10:00:00.000Z",
+      "fechaFinOferta": "2026-09-15T23:59:00.000Z",
       "historialPrecios": [
         {
-          "fecha": "2026-09-03T19:39:47.606Z",
-          "precio": 1.5,
+          "fecha": "2026-09-02T10:00:00.000Z",
+          "precio": 4,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Campaña Eco-Friendly: -20%",
+          "porcentajeDescuento": 20
+        },
+        {
+          "fecha": "2026-09-01T11:00:00.000Z",
+          "precio": 5,
           "tipo": "CREACION",
           "motivo": "Precio Inicial de Lanzamiento"
         }
       ],
-      "fechaRegistro": "2026-09-03T19:39:47.606Z"
+      "fechaRegistro": "2026-09-01T11:00:00.000Z"
+    },
+    {
+      "id": "prod-20",
+      "nombre": "Mix Frutos Secos Tostados Premium (500g)",
+      "categoria": "Snacks y Gourmet",
+      "stockActual": 14,
+      "stockMinimo": 5,
+      "precio": 11.5,
+      "enOferta": true,
+      "precioOferta": 10.35,
+      "porcentajeDescuento": 10,
+      "fechaInicioOferta": "2026-09-01T08:00:00.000Z",
+      "fechaFinOferta": "2026-09-08T20:00:00.000Z",
+      "historialPrecios": [
+        {
+          "fecha": "2026-09-01T08:00:00.000Z",
+          "precio": 10.35,
+          "tipo": "OFERTA_APLICADA",
+          "motivo": "Snack saludable de la semana: -10%",
+          "porcentajeDescuento": 10
+        },
+        {
+          "fecha": "2026-08-30T16:00:00.000Z",
+          "precio": 11.5,
+          "tipo": "CREACION",
+          "motivo": "Precio Inicial de Lanzamiento"
+        }
+      ],
+      "fechaRegistro": "2026-08-30T16:00:00.000Z"
     }
   ],
   "movements": [
     {
-      "id": "mov-1",
-      "fecha": "2026-09-02T08:30:00.000Z",
+      "id": "mov-01",
+      "fecha": "2026-08-28T09:00:00.000Z",
       "productoId": "prod-1",
-      "nombreProducto": "Café Grano Especialidad (1kg)",
+      "nombreProducto": "Café de Especialidad Bourbon (1kg)",
       "tipo": "IN",
-      "cantidad": 10,
-      "motivo": "Compra a proveedor de café",
-      "stockResultante": 14
+      "cantidad": 25,
+      "motivo": "Compra inicial a finca cafetera",
+      "stockResultante": 25
     },
     {
-      "id": "mov-2",
-      "fecha": "2026-09-02T15:45:00.000Z",
-      "productoId": "prod-2",
+      "id": "mov-02",
+      "fecha": "2026-08-28T11:00:00.000Z",
+      "productoId": "prod-4",
+      "nombreProducto": "Leche Entera Barista (1L)",
+      "tipo": "IN",
+      "cantidad": 30,
+      "motivo": "Abastecimiento lácteo semanal",
+      "stockResultante": 30
+    },
+    {
+      "id": "mov-03",
+      "fecha": "2026-08-29T10:30:00.000Z",
+      "productoId": "prod-1",
+      "nombreProducto": "Café de Especialidad Bourbon (1kg)",
+      "tipo": "OUT",
+      "cantidad": 3,
+      "motivo": "Venta mostrador a clientes",
+      "stockResultante": 22
+    },
+    {
+      "id": "mov-04",
+      "fecha": "2026-08-29T14:15:00.000Z",
+      "productoId": "prod-4",
       "nombreProducto": "Leche Entera Barista (1L)",
       "tipo": "OUT",
-      "cantidad": 6,
-      "motivo": "Consumo en turno matutino",
+      "cantidad": 8,
+      "motivo": "Consumo preparación barra de café",
+      "stockResultante": 22
+    },
+    {
+      "id": "mov-05",
+      "fecha": "2026-08-30T09:00:00.000Z",
+      "productoId": "prod-2",
+      "nombreProducto": "Café Geisha Tueste Medio (500g)",
+      "tipo": "IN",
+      "cantidad": 15,
+      "motivo": "Recepción lote especial Geisha",
+      "stockResultante": 15
+    },
+    {
+      "id": "mov-06",
+      "fecha": "2026-08-30T16:00:00.000Z",
+      "productoId": "prod-17",
+      "nombreProducto": "Vasos Biodegradables 12oz (x50)",
+      "tipo": "IN",
+      "cantidad": 40,
+      "motivo": "Pedido suministros ecológicos",
+      "stockResultante": 40
+    },
+    {
+      "id": "mov-07",
+      "fecha": "2026-08-31T09:20:00.000Z",
+      "productoId": "prod-10",
+      "nombreProducto": "Té Matcha Japonés Ceremonial Uji (100g)",
+      "tipo": "IN",
+      "cantidad": 8,
+      "motivo": "Importación directa de té ceremonial",
+      "stockResultante": 8
+    },
+    {
+      "id": "mov-08",
+      "fecha": "2026-08-31T15:00:00.000Z",
+      "productoId": "prod-10",
+      "nombreProducto": "Té Matcha Japonés Ceremonial Uji (100g)",
+      "tipo": "OUT",
+      "cantidad": 4,
+      "motivo": "Venta paquete especial degustación",
       "stockResultante": 4
     },
     {
-      "id": "mov-3",
-      "fecha": "2026-09-03T09:10:00.000Z",
-      "productoId": "prod-3",
-      "nombreProducto": "Jarabe de Vainilla Francesa (750ml)",
-      "tipo": "OUT",
-      "cantidad": 2,
-      "motivo": "Venta al mostrador",
-      "stockResultante": 5
-    },
-    {
-      "id": "bPYXDsH2kk0",
-      "fecha": "2026-09-03T19:39:47.671Z",
-      "productoId": "WlOLljcsHe0",
-      "nombreProducto": "Alfajores de Maicena Artesanales",
-      "tipo": "IN",
-      "cantidad": 12,
-      "motivo": "Inventario Inicial",
-      "stockResultante": 12
-    },
-    {
-      "id": "Uf_aURgzRjc",
-      "fecha": "2026-09-03T19:40:50.698Z",
-      "productoId": "WlOLljcsHe0",
-      "nombreProducto": "Alfajores de Maicena Artesanales",
-      "tipo": "OUT",
-      "cantidad": 2,
-      "motivo": "Venta de merienda",
-      "stockResultante": 10
-    },
-    {
-      "id": "dIudpLg09Y4",
-      "fecha": "2026-09-03T19:46:49.531Z",
-      "productoId": "prod-2",
-      "nombreProducto": "Leche Entera Barista (1L)",
-      "tipo": "IN",
-      "cantidad": 10,
-      "motivo": "Reposición semanal de lácteos",
-      "stockResultante": 14
-    },
-    {
-      "id": "AFZAZbioizY",
-      "fecha": "2026-09-03T19:49:25.906Z",
-      "productoId": "prod-3",
-      "nombreProducto": "Jarabe de Vainilla Francesa (750ml)",
-      "tipo": "IN",
-      "cantidad": 5,
-      "motivo": "Compra a proveedor",
-      "stockResultante": 5
-    },
-    {
-      "id": "hwHBIvVmT4U",
-      "fecha": "2026-09-03T19:52:33.892Z",
+      "id": "mov-09",
+      "fecha": "2026-09-01T08:30:00.000Z",
       "productoId": "prod-5",
-      "nombreProducto": "Té Matcha Japonés Ceremonial (100g)",
+      "nombreProducto": "Bebida de Avena Cremosa Barista (1L)",
+      "tipo": "IN",
+      "cantidad": 25,
+      "motivo": "Llegada de pedido de bebidas vegetales",
+      "stockResultante": 25
+    },
+    {
+      "id": "mov-10",
+      "fecha": "2026-09-01T11:45:00.000Z",
+      "productoId": "prod-1",
+      "nombreProducto": "Café de Especialidad Bourbon (1kg)",
       "tipo": "OUT",
       "cantidad": 2,
-      "motivo": "Venta directa",
+      "motivo": "Venta con descuento de oferta",
+      "stockResultante": 20
+    },
+    {
+      "id": "mov-11",
+      "fecha": "2026-09-01T14:30:00.000Z",
+      "productoId": "prod-17",
+      "nombreProducto": "Vasos Biodegradables 12oz (x50)",
+      "tipo": "OUT",
+      "cantidad": 5,
+      "motivo": "Despacho a barra para servicio take-away",
+      "stockResultante": 35
+    },
+    {
+      "id": "mov-12",
+      "fecha": "2026-09-01T17:00:00.000Z",
+      "productoId": "prod-10",
+      "nombreProducto": "Té Matcha Japonés Ceremonial Uji (100g)",
+      "tipo": "OUT",
+      "cantidad": 4,
+      "motivo": "Venta total de stock en evento de té",
       "stockResultante": 0
     },
     {
-      "id": "nkLFuVcX64c",
-      "fecha": "2026-09-03T19:55:31.180Z",
+      "id": "mov-13",
+      "fecha": "2026-09-02T07:30:00.000Z",
+      "productoId": "prod-14",
+      "nombreProducto": "Croissant de Mantequilla Francés",
+      "tipo": "IN",
+      "cantidad": 35,
+      "motivo": "Horneado fresco de panadería matutina",
+      "stockResultante": 35
+    },
+    {
+      "id": "mov-14",
+      "fecha": "2026-09-02T11:00:00.000Z",
+      "productoId": "prod-14",
+      "nombreProducto": "Croissant de Mantequilla Francés",
+      "tipo": "OUT",
+      "cantidad": 11,
+      "motivo": "Venta de desayunos en cafetería",
+      "stockResultante": 24
+    },
+    {
+      "id": "mov-15",
+      "fecha": "2026-09-02T13:10:00.000Z",
+      "productoId": "prod-2",
+      "nombreProducto": "Café Geisha Tueste Medio (500g)",
+      "tipo": "OUT",
+      "cantidad": 5,
+      "motivo": "Venta a cliente recurrente barista",
+      "stockResultante": 10
+    },
+    {
+      "id": "mov-16",
+      "fecha": "2026-09-02T15:30:00.000Z",
+      "productoId": "prod-9",
+      "nombreProducto": "Jarabe de Avellana Tostada (750ml)",
+      "tipo": "OUT",
+      "cantidad": 3,
+      "motivo": "Uso intensivo en cócteles de café",
+      "stockResultante": 2
+    },
+    {
+      "id": "mov-17",
+      "fecha": "2026-09-02T18:00:00.000Z",
+      "productoId": "prod-19",
+      "nombreProducto": "Pajillas de Bambú Compostables (x100)",
+      "tipo": "IN",
+      "cantidad": 30,
+      "motivo": "Abastecimiento de insumos sostenibles",
+      "stockResultante": 30
+    },
+    {
+      "id": "mov-18",
+      "fecha": "2026-09-03T08:30:00.000Z",
+      "productoId": "prod-13",
+      "nombreProducto": "Alfajores de Maicena Artesanales (x6)",
+      "tipo": "IN",
+      "cantidad": 20,
+      "motivo": "Entrega artesanal repostera",
+      "stockResultante": 20
+    },
+    {
+      "id": "mov-19",
+      "fecha": "2026-09-03T11:00:00.000Z",
+      "productoId": "prod-13",
+      "nombreProducto": "Alfajores de Maicena Artesanales (x6)",
+      "tipo": "OUT",
+      "cantidad": 5,
+      "motivo": "Venta con promoción de merienda",
+      "stockResultante": 15
+    },
+    {
+      "id": "mov-20",
+      "fecha": "2026-09-03T14:20:00.000Z",
       "productoId": "prod-4",
-      "nombreProducto": "Vasos Biodegradables 12oz (x50)",
+      "nombreProducto": "Leche Entera Barista (1L)",
+      "tipo": "OUT",
+      "cantidad": 8,
+      "motivo": "Consumo turno tarde en lattes y cappuccinos",
+      "stockResultante": 14
+    },
+    {
+      "id": "mov-21",
+      "fecha": "2026-09-03T16:45:00.000Z",
+      "productoId": "prod-15",
+      "nombreProducto": "Brownie Fudgy con Chocolate Belga",
+      "tipo": "IN",
+      "cantidad": 25,
+      "motivo": "Lote horneado de brownies artesanales",
+      "stockResultante": 25
+    },
+    {
+      "id": "mov-22",
+      "fecha": "2026-09-03T18:15:00.000Z",
+      "productoId": "prod-15",
+      "nombreProducto": "Brownie Fudgy con Chocolate Belga",
+      "tipo": "OUT",
+      "cantidad": 7,
+      "motivo": "Venta de meriendas y postres",
+      "stockResultante": 18
+    },
+    {
+      "id": "mov-23",
+      "fecha": "2026-09-04T07:15:00.000Z",
+      "productoId": "prod-1",
+      "nombreProducto": "Café de Especialidad Bourbon (1kg)",
       "tipo": "OUT",
       "cantidad": 2,
-      "motivo": "Venta directa",
-      "stockResultante": 20
+      "motivo": "Venta matutina primera hora",
+      "stockResultante": 18
+    },
+    {
+      "id": "mov-24",
+      "fecha": "2026-09-04T07:30:00.000Z",
+      "productoId": "prod-5",
+      "nombreProducto": "Bebida de Avena Cremosa Barista (1L)",
+      "tipo": "OUT",
+      "cantidad": 3,
+      "motivo": "Preparación de bebidas de avena",
+      "stockResultante": 22
+    },
+    {
+      "id": "mov-25",
+      "fecha": "2026-09-04T07:45:00.000Z",
+      "productoId": "prod-19",
+      "nombreProducto": "Pajillas de Bambú Compostables (x100)",
+      "tipo": "OUT",
+      "cantidad": 2,
+      "motivo": "Venta directa al por menor",
+      "stockResultante": 28
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

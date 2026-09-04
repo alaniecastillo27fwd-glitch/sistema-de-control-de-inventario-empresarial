@@ -5,7 +5,7 @@ Este documento establece los estándares de desarrollo, arquitectura y buenas pr
 
 ---
 
-## 💡 Filosofía: Metodología Vibe Coding
+## Filosofía: Metodología Vibe Coding
 
 En este proyecto adoptamos el enfoque de **Vibe Coding** (desarrollo ágil asistido por Inteligencia Artificial y herramientas de nueva generación). Para colaborar eficazmente, sigue estas premisas fundamentales:
 
@@ -23,7 +23,7 @@ En este proyecto adoptamos el enfoque de **Vibe Coding** (desarrollo ágil asist
 
 ---
 
-## 🏛️ Convenciones de Arquitectura y Código (React)
+## Convenciones de Arquitectura y Código (React)
 
 El proyecto implementa una arquitectura desacoplada y orientada a capas:
 
@@ -53,7 +53,7 @@ src/
 
 ---
 
-## 🌿 Flujo de Trabajo en Git
+## Flujo de Trabajo en Git
 
 Adoptamos un flujo ágil basado en ramas de características (*Feature Branching*):
 
@@ -69,7 +69,7 @@ Adoptamos un flujo ágil basado en ramas de características (*Feature Branching
 
 ---
 
-## 📝 Estándar de Commits (Conventional Commits)
+## Estándar de Commits (Conventional Commits)
 
 Todos los commits deben redactarse en tiempo imperativo y seguir la especificación [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -88,7 +88,7 @@ Todos los commits deben redactarse en tiempo imperativo y seguir la especificaci
 
 ---
 
-## ✅ Checklist de Control de Calidad previo a Pull Request
+## Checklist de Control de Calidad previo a Pull Request
 
 Antes de enviar un Pull Request o fusionar una rama en `main`, verifica:
 

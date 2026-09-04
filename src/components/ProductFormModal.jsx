@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, PackagePlus, Check, AlertCircle } from 'lucide-react';
+import { X, PackagePlus, Check, AlertCircle, Trash2 } from 'lucide-react';
 import { INITIAL_CATEGORIES } from '../data/initialProducts';
 
 /**
@@ -13,7 +13,7 @@ import { INITIAL_CATEGORIES } from '../data/initialProducts';
  * @param {Object|null} props.initialData - Datos del producto si se está editando
  * @param {string[]} props.categories - Lista de categorías existentes para autocompletar
  */
-export function ProductFormModal({ isOpen, onClose, onSubmit, initialData = null, categories = [] }) {
+export function ProductFormModal({ isOpen, onClose, onSubmit, onDelete, initialData = null, categories = [] }) {
   // Combinar categorías existentes con las categorías por defecto
   const allCategories = useMemo(
     () => Array.from(new Set([...INITIAL_CATEGORIES, ...categories])),
@@ -303,14 +303,31 @@ export function ProductFormModal({ isOpen, onClose, onSubmit, initialData = null
           </div>
 
           {/* Botones de acción */}
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn btn-primary">
-              <Check size={16} />
-              <span>{initialData ? 'Guardar Cambios' : 'Registrar Producto'}</span>
-            </button>
+          <div className="modal-footer" style={{ justifyContent: initialData && onDelete ? 'space-between' : 'flex-end' }}>
+            {initialData && onDelete ? (
+              <button
+                type="button"
+                className="btn btn-danger"
+                style={{ padding: '8px 14px', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                onClick={() => {
+                  onClose();
+                  onDelete(initialData);
+                }}
+                title="Eliminar este producto permanentemente"
+              >
+                <Trash2 size={15} />
+                <span>Eliminar Producto</span>
+              </button>
+            ) : null}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button type="button" className="btn btn-secondary" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-primary">
+                <Check size={16} />
+                <span>{initialData ? 'Guardar Cambios' : 'Registrar Producto'}</span>
+              </button>
+            </div>
           </div>
         </form>
       </div>

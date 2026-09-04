@@ -10,7 +10,10 @@ import {
   History, 
   Clock,
   Sparkles,
-  Package
+  Package,
+  Award,
+  ShoppingBag,
+  ArrowRight
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -29,11 +32,15 @@ import {
  * @param {Array} props.products - Lista de productos
  * @param {Array} props.movements - Historial de movimientos
  * @param {Object} props.stats - Métricas generales
+ * @param {Function} [props.onOpenMovement] - Callback para compra / salida rápida
+ * @param {Function} [props.onNavigateToStore] - Callback para navegar a la tienda
  */
 export function AdminDashboard({
   products,
   movements,
   stats,
+  onOpenMovement,
+  onNavigateToStore,
 }) {
   // Filtro temporal para la gráfica: 'DAYS' | 'WEEKS' | 'YEAR'
   const [timeRange, setTimeRange] = useState('DAYS');
@@ -42,6 +49,34 @@ export function AdminDashboard({
   const [selectedProductId, setSelectedProductId] = useState(
     products.length > 0 ? String(products[0].id) : ''
   );
+
+  // Producto más destacado de la tienda (mayor demanda o mejor promoción activa)
+  const featuredProduct = useMemo(() => {
+    if (!products || products.length === 0) return null;
+
+    const salesMap = {};
+    movements
+      .filter((m) => m.type === 'OUT')
+      .forEach((m) => {
+        const pid = String(m.productId);
+        salesMap[pid] = (salesMap[pid] || 0) + (Number(m.quantity) || 0);
+      });
+
+    const sorted = [...products].filter((p) => p.stock > 0).sort((a, b) => {
+      const salesA = salesMap[String(a.id)] || 0;
+      const salesB = salesMap[String(b.id)] || 0;
+
+      // 1. Priorizar ofertas activas
+      if (a.enOferta && !b.enOferta) return -1;
+      if (!a.enOferta && b.enOferta) return 1;
+      // 2. Mayor volumen de salidas/ventas
+      if (salesB !== salesA) return salesB - salesA;
+      // 3. Mayor stock disponible
+      return b.stock - a.stock;
+    });
+
+    return sorted[0] || products[0] || null;
+  }, [products, movements]);
 
   // 1. Métricas KPI
   const {
@@ -280,6 +315,222 @@ export function AdminDashboard({
           </div>
         </div>
       </section>
+
+      {/* Apartado Especial: Producto Más Destacado de la Tienda */}
+      {featuredProduct && (
+        <section 
+          className="featured-product-hero" 
+          aria-label="Producto más destacado de la tienda"
+          style={{
+            background: 'var(--bg-surface)',
+            border: '1.5px solid var(--color-gold-400)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '24px 28px',
+            boxShadow: 'var(--shadow-md)',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Fondo decorativo sutil */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '320px',
+              height: '100%',
+              background: 'radial-gradient(circle at 80% 20%, var(--accent-gold-bg) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              opacity: 0.8,
+            }}
+          />
+
+          {/* Insignia superior */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px', flexWrap: 'wrap', gap: '10px' }}>
+            <div 
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-pill)',
+                background: 'var(--accent-gold-bg)',
+                color: 'var(--color-gold-700)',
+                border: '1px solid var(--color-gold-300)',
+                fontSize: '0.82rem',
+                fontWeight: 800,
+                letterSpacing: '0.03em',
+                textTransform: 'uppercase',
+              }}
+            >
+              <Award size={16} style={{ color: 'var(--color-gold-500)' }} />
+              <span>Producto Más Destacado · Selección Especial de la Tienda</span>
+            </div>
+
+            {featuredProduct.enOferta && (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '5px 12px',
+                  borderRadius: 'var(--radius-pill)',
+                  background: 'var(--accent-mint-bg)',
+                  color: 'var(--color-mint-700)',
+                  border: '1px solid var(--color-mint-400)',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                }}
+              >
+                <Sparkles size={14} />
+                <span>Oferta Especial: -{featuredProduct.porcentajeDescuento}%</span>
+              </span>
+            )}
+          </div>
+
+          <div 
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '24px',
+              alignItems: 'center',
+            }}
+          >
+            {/* Columna Izquierda: Información del Producto */}
+            <div style={{ display: 'flex', gap: '18px', alignItems: 'flex-start' }}>
+              <div
+                style={{
+                  width: '68px',
+                  height: '68px',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'linear-gradient(135deg, var(--color-sky-500) 0%, var(--color-sky-700) 100%)',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  boxShadow: 'var(--shadow-sm)',
+                }}
+              >
+                <ShoppingBag size={34} />
+              </div>
+
+              <div>
+                <span 
+                  style={{ 
+                    fontSize: '0.78rem', 
+                    fontWeight: 700, 
+                    color: 'var(--color-sky-600)', 
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  {featuredProduct.category}
+                </span>
+                <h3 
+                  style={{ 
+                    fontSize: '1.4rem', 
+                    fontWeight: 800, 
+                    margin: '4px 0 8px', 
+                    color: 'var(--text-primary)',
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {featuredProduct.name}
+                </h3>
+                
+                {/* Precios */}
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '8px' }}>
+                  {featuredProduct.enOferta && featuredProduct.precioOferta ? (
+                    <>
+                      <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-gold-600)' }}>
+                        ${Number(featuredProduct.precioOferta).toFixed(2)}
+                      </span>
+                      <span style={{ fontSize: '1rem', textDecoration: 'line-through', color: 'var(--text-muted)' }}>
+                        ${Number(featuredProduct.price).toFixed(2)}
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      ${Number(featuredProduct.price).toFixed(2)}
+                    </span>
+                  )}
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>/ por unidad</span>
+                </div>
+
+                <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Package size={14} style={{ color: 'var(--color-mint-600)' }} />
+                  <span><strong>{featuredProduct.stock} unidades</strong> disponibles en existencias</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Columna Derecha: Mensaje Entusiasta de Compra & Llamado a la Acción */}
+            <div 
+              style={{
+                background: 'var(--bg-card)',
+                borderRadius: 'var(--radius-md)',
+                padding: '20px',
+                border: '1px solid var(--border-color)',
+              }}
+            >
+              <h4 
+                style={{ 
+                  fontSize: '1.05rem', 
+                  fontWeight: 700, 
+                  color: 'var(--color-gold-700)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px',
+                  marginBottom: '8px' 
+                }}
+              >
+                <Sparkles size={16} />
+                <span>¡El consentido de nuestros clientes!</span>
+              </h4>
+
+              <p 
+                style={{ 
+                  fontSize: '0.92rem', 
+                  lineHeight: '1.55', 
+                  color: 'var(--text-primary)', 
+                  marginBottom: '14px' 
+                }}
+              >
+                ¡No dejes pasar la oportunidad de disfrutar este producto estrella! Ha sido seleccionado especialmente por su incomparable frescura, calidad artesanal y el entusiasmo que despierta en cada hogar. <strong>¡Aprovecha hoy mismo y llévatelo antes de que se agoten las existencias!</strong>
+              </p>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
+                {onOpenMovement && (
+                  <button
+                    type="button"
+                    className="btn btn-gold"
+                    onClick={() => onOpenMovement(featuredProduct, 'OUT')}
+                    style={{ fontSize: '0.88rem', padding: '10px 18px' }}
+                    title="Registrar venta directa de este producto estrella"
+                  >
+                    <ShoppingBag size={16} />
+                    <span>¡Comprar Ahora!</span>
+                  </button>
+                )}
+
+                {onNavigateToStore && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onNavigateToStore}
+                    style={{ fontSize: '0.88rem', padding: '10px 16px' }}
+                    title="Ir a la vista completa de la tienda"
+                  >
+                    <span>Ver en Tienda</span>
+                    <ArrowRight size={15} />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 2. Gráficas Estadísticas Interactivas con Filtro Temporal */}
       <section className="dashboard-chart-card" aria-label="Gráfica de movimientos y flujo de stock">

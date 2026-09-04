@@ -6,9 +6,7 @@ import {
   Edit2, 
   Trash2, 
   PackageOpen, 
-  Tag, 
-  Sparkles,
-  Percent
+  Tag
 } from 'lucide-react';
 
 /**
@@ -98,9 +96,8 @@ export function InventoryTable({
   };
 
   const handleDeleteClick = (product) => {
-    const confirmMessage = `¿Estás seguro de eliminar "${product.name}" del catálogo? Esta acción no se puede deshacer.`;
-    if (window.confirm(confirmMessage)) {
-      onDeleteProduct(product.id);
+    if (onDeleteProduct) {
+      onDeleteProduct(product);
     }
   };
 
@@ -179,8 +176,10 @@ export function InventoryTable({
               type="button"
               className={`time-range-btn ${activeFilter === 'OFFERS' ? 'active' : ''}`}
               onClick={() => setActiveFilter && setActiveFilter('OFFERS')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
             >
-              ⭐ Ofertas
+              <Tag size={13} />
+              <span>Ofertas</span>
             </button>
           </div>
         </div>

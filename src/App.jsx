@@ -8,6 +8,8 @@ import { InventoryTable } from './components/InventoryTable';
 import { ProductFormModal } from './components/ProductFormModal';
 import { StockMovementModal } from './components/StockMovementModal';
 import { OfferFormModal } from './components/OfferFormModal';
+import { DeleteConfirmModal } from './components/DeleteConfirmModal';
+import { GeminiChatbot } from './components/GeminiChatbot';
 import { 
   CheckCircle2, 
   Loader2, 
@@ -65,6 +67,8 @@ export function App() {
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [offerProduct, setOfferProduct] = useState(null);
 
+  const [deletingProduct, setDeletingProduct] = useState(null);
+
   // Filtro activo en la tabla de inventario
   const [inventoryFilter, setInventoryFilter] = useState('ALL');
 
@@ -103,11 +107,22 @@ export function App() {
     }
   };
 
-  const handleDeleteProduct = async (id) => {
-    const target = products.find((p) => String(p.id) === String(id));
+  const handleRequestDelete = (productOrId) => {
+    if (productOrId && typeof productOrId === 'object') {
+      setDeletingProduct(productOrId);
+    } else {
+      const found = products.find((p) => String(p.id) === String(productOrId));
+      if (found) {
+        setDeletingProduct(found);
+      }
+    }
+  };
+
+  const handleConfirmDelete = async (id) => {
+    const target = products.find((p) => String(p.id) === String(id)) || deletingProduct;
     const res = await deleteProduct(id);
     if (res.success) {
-      showToast(`Producto "${target?.name || ''}" eliminado.`);
+      showToast(`Producto "${target?.name || ''}" eliminado correctamente.`);
     }
   };
 
@@ -230,6 +245,8 @@ export function App() {
                 onOpenMovement={handleOpenMovement}
                 onOpenOfferModal={handleOpenOfferModal}
                 onOpenNewProduct={handleOpenNewProduct}
+                onEditProduct={handleEditProduct}
+                onDeleteProduct={handleRequestDelete}
               />
             )}
 
@@ -239,6 +256,7 @@ export function App() {
                 products={products}
                 onOpenMovement={handleOpenMovement}
                 onOpenOfferModal={handleOpenOfferModal}
+                onDeleteProduct={handleRequestDelete}
               />
             )}
 
@@ -258,7 +276,7 @@ export function App() {
                 products={products}
                 onOpenMovement={handleOpenMovement}
                 onEditProduct={handleEditProduct}
-                onDeleteProduct={handleDeleteProduct}
+                onDeleteProduct={handleRequestDelete}
                 onOpenOfferModal={handleOpenOfferModal}
                 activeFilter={inventoryFilter}
                 setActiveFilter={setInventoryFilter}
@@ -273,6 +291,7 @@ export function App() {
         isOpen={isProductModalOpen}
         onClose={() => setIsProductModalOpen(false)}
         onSubmit={handleProductSubmit}
+        onDelete={handleRequestDelete}
         initialData={editingProduct}
         categories={categories}
       />
@@ -295,14 +314,22 @@ export function App() {
         onRemoveOffer={handleRemoveOffer}
       />
 
+      {/* MODAL 4: Confirmación de Eliminación de Producto */}
+      <DeleteConfirmModal
+        isOpen={Boolean(deletingProduct)}
+        onClose={() => setDeletingProduct(null)}
+        onConfirm={handleConfirmDelete}
+        product={deletingProduct}
+      />
+
       {/* Notificación Toast Flotante */}
       {toastMessage && (
         <div
           style={{
             position: 'fixed',
-            bottom: '24px',
+            bottom: '84px',
             right: '24px',
-            zIndex: 100,
+            zIndex: 101,
             background: 'var(--bg-surface)',
             border: '1px solid var(--border-color)',
             color: 'var(--text-primary)',
@@ -320,6 +347,15 @@ export function App() {
           <span style={{ fontWeight: 600 }}>{toastMessage}</span>
         </div>
       )}
+
+      {/* Chatbot Asistente Virtual Gemini AI */}
+      <GeminiChatbot
+        products={products}
+        movements={movements}
+        stats={stats}
+        onNavigateTab={setActiveTab}
+        onOpenMovement={handleOpenMovement}
+      />
     </div>
   );
 }

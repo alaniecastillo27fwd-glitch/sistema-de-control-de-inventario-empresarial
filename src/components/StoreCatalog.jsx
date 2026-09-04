@@ -3,12 +3,12 @@ import {
   Search, 
   Sparkles, 
   Tag, 
-  ShoppingCart, 
   ArrowUpRight, 
   ArrowDownRight, 
   Plus, 
   PackageOpen,
-  SlidersHorizontal
+  Trash2,
+  Edit2
 } from 'lucide-react';
 import { CountdownTimer } from './CountdownTimer';
 
@@ -25,6 +25,8 @@ export function StoreCatalog({
   onOpenMovement,
   onOpenOfferModal,
   onOpenNewProduct,
+  onEditProduct,
+  onDeleteProduct,
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
@@ -92,9 +94,13 @@ export function StoreCatalog({
               borderColor: 'var(--color-gold-400)',
               color: filterOnlyOffers ? '#FFFFFF' : 'var(--color-gold-700)',
               background: filterOnlyOffers ? 'var(--color-gold-500)' : 'var(--accent-gold-bg)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
             }}
           >
-            ⭐ Solo en Oferta
+            <Sparkles size={14} />
+            <span>Solo en Oferta</span>
           </button>
 
           {categories.map((cat) => (
@@ -265,6 +271,28 @@ export function StoreCatalog({
                       title="Modificar oferta"
                     >
                       <Tag size={15} color="var(--color-gold-600)" />
+                    </button>
+                  )}
+
+                  {onEditProduct && (
+                    <button
+                      type="button"
+                      className="btn-icon-only"
+                      onClick={() => onEditProduct(product)}
+                      title="Editar producto"
+                    >
+                      <Edit2 size={15} />
+                    </button>
+                  )}
+
+                  {onDeleteProduct && (
+                    <button
+                      type="button"
+                      className="btn-icon-only danger"
+                      onClick={() => onDeleteProduct(product)}
+                      title="Eliminar producto de la tienda"
+                    >
+                      <Trash2 size={15} />
                     </button>
                   )}
                 </div>

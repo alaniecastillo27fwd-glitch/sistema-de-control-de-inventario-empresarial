@@ -13,26 +13,35 @@ export function useInventory() {
   const [error, setError] = useState(null);
 
   /**
-   * Carga inicial y sincronización de datos desde el backend (json-server)
+   * Carga inicial y sincronización de datos desde el backend (json-server).
+   * Incluye reintento automático para coordinar el arranque paralelo de Vite y json-server.
    */
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
-    try {
-      const [fetchedProducts, fetchedMovements] = await Promise.all([
-        inventoryService.getProducts(),
-        inventoryService.getMovements(),
-      ]);
-      setProducts(fetchedProducts);
-      setMovements(fetchedMovements);
-    } catch (err) {
-      console.error('Error al cargar datos desde json-server:', err);
-      setError(
-        'No se pudo conectar con el servidor de la API (json-server). Verifica que esté ejecutándose en http://localhost:5000.'
-      );
-    } finally {
-      setLoading(false);
-    }
+
+    const loadWithRetry = async (retriesLeft = 2) => {
+      try {
+        const [fetchedProducts, fetchedMovements] = await Promise.all([
+          inventoryService.getProducts(),
+          inventoryService.getMovements(),
+        ]);
+        setProducts(fetchedProducts);
+        setMovements(fetchedMovements);
+      } catch (err) {
+        console.error('Error al cargar datos desde json-server:', err);
+        if (retriesLeft > 0) {
+          await new Promise((resolve) => setTimeout(resolve, 1200));
+          return loadWithRetry(retriesLeft - 1);
+        }
+        setError(
+          'No se pudo conectar con el servidor de la API (json-server). Verifica que esté ejecutándose en http://localhost:5000.'
+        );
+      }
+    };
+
+    await loadWithRetry();
+    setLoading(false);
   }, []);
 
   useEffect(() => {

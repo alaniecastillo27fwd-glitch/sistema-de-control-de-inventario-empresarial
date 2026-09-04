@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, AlertCircle } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 /**
  * Componente Temporizador Regresivo (Countdown Timer)
